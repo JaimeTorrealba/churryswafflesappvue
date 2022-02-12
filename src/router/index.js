@@ -25,11 +25,19 @@ const routes = [
   },
   {
     meta: {
-      title: 'Forms'
+      title: 'newOrder'
     },
-    path: '/forms',
-    name: 'forms',
-    component: () => import(/* webpackChunkName: "forms" */ '@/views/Forms.vue')
+    path: '/newOrder',
+    name: 'newOrder',
+    component: () => import(/* webpackChunkName: "newOrder" */ '@/views/NewOrder.vue')
+  },
+  {
+    meta: {
+      title: 'products'
+    },
+    path: '/products',
+    name: 'products',
+    component: () => import(/* webpackChunkName: "products" */ '@/views/Products.vue')
   },
   {
     meta: {

@@ -19,6 +19,7 @@ const isAsideLgActive = computed(() => store.state.isAsideLgActive)
 const overlayClick = () => {
   store.dispatch('asideLgToggle', false)
 }
+
 </script>
 
 <template>

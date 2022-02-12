@@ -65,5 +65,4 @@ const titleStack = ref(['Admin', 'Tables'])
 
     <card-component empty />
   </main-section>
-
 </template>

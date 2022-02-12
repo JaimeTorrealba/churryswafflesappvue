@@ -11,12 +11,14 @@
     "lint:fix": "vue-cli-service lint --fix"
   },
   "dependencies": {
+    "@chenfengyuan/vue-number-input": "^2.0.0",
     "@mdi/js": "^6.4.95",
     "axios": "^0.24.0",
     "chart.js": "^3.6.0",
     "core-js": "^3.6.5",
+    "firebase": "^9.6.6",
     "numeral": "^2.0.6",
-    "vue": "^3.0.0",
+    "vue": "^3.2.31",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },

@@ -4,6 +4,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { darkModeKey, styleKey } from '@/config.js'
+import VueNumberInput from '@chenfengyuan/vue-number-input'
 
 import './css/main.css'
 
@@ -12,7 +13,7 @@ store.dispatch('fetch', 'clients')
 store.dispatch('fetch', 'history')
 
 /* App style */
-store.dispatch('setStyle', localStorage[styleKey] ?? 'basic')
+store.dispatch('setStyle', localStorage[styleKey] = 'basic')
 
 /* Dark mode */
 if ((!localStorage[darkModeKey] && window.matchMedia('(prefers-color-scheme: dark)').matches) || localStorage[darkModeKey] === '1') {
@@ -39,5 +40,4 @@ router.afterEach(to => {
   /* Full screen mode */
   store.dispatch('fullScreenToggle', !!to.meta.fullScreen)
 })
-
-createApp(App).use(store).use(router).mount('#app')
+createApp(App).use(store).use(router).component(VueNumberInput.name, VueNumberInput).mount('#app')
