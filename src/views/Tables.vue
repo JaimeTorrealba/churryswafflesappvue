@@ -7,7 +7,6 @@ import ClientsTable from '@/components/ClientsTable.vue'
 import CardComponent from '@/components/CardComponent.vue'
 import TitleBar from '@/components/TitleBar.vue'
 import HeroBar from '@/components/HeroBar.vue'
-import BottomOtherPagesSection from '@/components/BottomOtherPagesSection.vue'
 import TitleSubBar from '@/components/TitleSubBar.vue'
 
 const titleStack = ref(['Admin', 'Tables'])
@@ -67,5 +66,4 @@ const titleStack = ref(['Admin', 'Tables'])
     <card-component empty />
   </main-section>
 
-  <bottom-other-pages-section />
 </template>

@@ -4,7 +4,6 @@ import { mdiTrendingDown, mdiTrendingUp, mdiTrendingNeutral } from '@mdi/js'
 import CardComponent from '@/components/CardComponent.vue'
 import Level from '@/components/Level.vue'
 import Pill from '@/components/Pill.vue'
-import UserAvatar from '@/components/UserAvatar.vue'
 
 const props = defineProps({
   name: {
@@ -71,10 +70,6 @@ const pillText = computed(() => props.text ?? `${props.progress}%`)
   >
     <level>
       <level type="justify-start">
-        <user-avatar
-          class="w-12 h-12 md:mr-6"
-          :username="name"
-        />
         <div class="text-center md:text-left">
           <h4 class="text-xl">
             {{ name }} <span class="text-gray-500 dark:text-gray-400">@{{ login }}</span>

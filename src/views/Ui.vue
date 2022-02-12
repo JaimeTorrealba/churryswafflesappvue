@@ -24,7 +24,6 @@ import ModalBox from '@/components/ModalBox.vue'
 import TitledSection from '@/components/TitledSection.vue'
 import Field from '@/components/Field.vue'
 import CheckRadioPicker from '@/components/CheckRadioPicker.vue'
-import BottomOtherPagesSection from '@/components/BottomOtherPagesSection.vue'
 import TitleSubBar from '@/components/TitleSubBar.vue'
 
 const titleStack = ref(['Admin', 'UI Components'])
@@ -471,6 +470,4 @@ const darkModeToggle = () => {
 
     <card-component empty />
   </main-section>
-
-  <bottom-other-pages-section />
 </template>

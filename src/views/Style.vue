@@ -4,7 +4,6 @@ import { useStore } from 'vuex'
 import { sectionBgLogin } from '@/colors.js'
 import MainSection from '@/components/MainSection.vue'
 import CardComponent from '@/components/CardComponent.vue'
-import JbLogo from '@/components/JbLogo.vue'
 
 const styles = [
   {
@@ -19,7 +18,7 @@ const styles = [
 
 const store = useStore()
 
-store.dispatch('darkMode', false)
+store.dispatch('darkMode', true)
 
 const router = useRouter()
 
@@ -65,11 +64,6 @@ const click = slug => {
           & Dark mode
         </h2>
       </card-component>
-    </div>
-    <div class="mx-auto mt-12 mb-6">
-      <a href="https://justboil.me">
-        <jb-logo class="w-auto h-8 md:h-10 mx-auto text-white" />
-      </a>
     </div>
   </main-section>
 </template>

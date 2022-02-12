@@ -27,7 +27,6 @@ export default createStore({
     /* User */
     userName: null,
     userEmail: null,
-    userAvatar: null,
 
     /* fullScreen - fullscreen form layout (e.g. login page) */
     isFullScreen: true,
@@ -70,9 +69,6 @@ export default createStore({
       }
       if (payload.email) {
         state.userEmail = payload.email
-      }
-      if (payload.avatar) {
-        state.userAvatar = payload.avatar
       }
     }
   },

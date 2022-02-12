@@ -3,15 +3,6 @@ import Home from '@/views/Home.vue'
 
 const routes = [
   {
-    meta: {
-      title: 'Select style',
-      fullScreen: true
-    },
-    path: '/',
-    name: 'style',
-    component: () => import(/* webpackChunkName: "style" */ '@/views/Style.vue')
-  },
-  {
     // Document title tag
     // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
     meta: {
@@ -42,34 +33,10 @@ const routes = [
   },
   {
     meta: {
-      title: 'Profile'
-    },
-    path: '/profile',
-    name: 'profile',
-    component: () => import(/* webpackChunkName: "profile" */ '@/views/Profile.vue')
-  },
-  {
-    meta: {
-      title: 'Ui'
-    },
-    path: '/ui',
-    name: 'ui',
-    component: () => import(/* webpackChunkName: "ui" */ '@/views/Ui.vue')
-  },
-  {
-    meta: {
-      title: 'Responsive layout'
-    },
-    path: '/responsive',
-    name: 'responsive',
-    component: () => import(/* webpackChunkName: "responsive" */ '@/views/Responsive.vue')
-  },
-  {
-    meta: {
       title: 'Login',
       fullScreen: true
     },
-    path: '/login',
+    path: '/',
     name: 'login',
     component: () => import(/* webpackChunkName: "login" */ '@/views/Login.vue')
   },
