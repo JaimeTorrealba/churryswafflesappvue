@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore/lite'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -15,12 +15,27 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 
-export const db = getFirestore(app)
+const db = getFirestore(app)
 
 // Get product list
-export async function getProducts (db) {
-  const getProducts = collection(db, 'products')
-  const productsSnapshot = await getDocs(getProducts)
-  const productsList = productsSnapshot.docs.map(doc => doc.data())
-  return productsList
+export async function getProducts () {
+  const getProductsDB = collection(db, 'products')
+  const productsSnapshot = await getDocs(getProductsDB)
+  const productsListData = productsSnapshot.docs.map(doc => {
+    const responseWithId = {
+      id: doc.id,
+      data: doc.data()
+    }
+    return responseWithId
+  })
+  return productsListData
+}
+
+// Add new Product
+export async function addNewProduct (newOrder) {
+  await addDoc(collection(db, 'products'), { Name: newOrder.Name, Price: parseInt(newOrder.Price) })
+}
+// Delete Product
+export async function deleteProduct (productId) {
+  await deleteDoc(doc(db, 'products', productId))
 }

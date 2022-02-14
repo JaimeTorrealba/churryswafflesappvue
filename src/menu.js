@@ -1,7 +1,7 @@
 import {
   mdiDesktopMac,
   mdiSquareEditOutline,
-  mdiArchivePlus 
+  mdiArchivePlus
   // mdiTable,
 } from '@mdi/js'
 

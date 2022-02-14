@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { getProducts, db } from '@/utils/firebase'
+import { getProducts } from '@/utils/firebase'
 
 import { mdiBallot, mdiBallotOutline } from '@mdi/js'
 import MainSection from '@/components/MainSection.vue'
@@ -16,12 +16,14 @@ import JbButtons from '@/components/JbButtons.vue'
 import TitleSubBar from '@/components/TitleSubBar.vue'
 
 const titleStack = ref(['Admin', 'New order'])
-// const products = ref([])
-// onMounted(async () => {
-//   products.value = await getProducts(db)
-// })
+const products = ref([])
+onMounted(async () => {
+  getProductsList()
+})
 
-const products = [{ Price: 2500, Name: 'Jamón' }, { Price: 2500, Name: 'Tocino' }, { Price: 2500, Name: 'Frutilla banana' }, { Name: 'Oreo glaseado', Price: 2500 }]
+const getProductsList = async () => {
+  products.value = await getProducts()
+}
 
 const selectOptions = [
   { id: 1, label: 'Efectivo' },
@@ -68,11 +70,11 @@ const submit = () => {
       </product-field>
       <div
         v-for="product in products"
-        :key="product.Name"
+        :key="product.data.Name"
       >
         <ProductField
-          :label="product.Name"
-          :extra-label="`${product.Price}$` "
+          :label="product.data.Name"
+          :extra-label="`${product.data.Price}$` "
         >
           <vue-number-input
             :min="0"
