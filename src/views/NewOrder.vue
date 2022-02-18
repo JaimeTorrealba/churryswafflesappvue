@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { getProducts } from '@/utils/firebase'
 
 import { mdiBallot, mdiBallotOutline } from '@mdi/js'
@@ -15,35 +15,67 @@ import JbButton from '@/components/JbButton.vue'
 import JbButtons from '@/components/JbButtons.vue'
 import TitleSubBar from '@/components/TitleSubBar.vue'
 
+// TODO: add form validation
+// TODO: add create order firebase
+// TODO: teste flow
+// TODO: start login process
+
 const titleStack = ref(['Admin', 'New order'])
-const products = ref([])
+// const products = ref([])
 onMounted(async () => {
-  getProductsList()
+  // getProductsList()
 })
+const products = [{ id: 'HTZtgMai987xYgqJDjIK', data: { Price: 2500, Name: 'Jamón' } }, { id: 'Vj9AIkYF8tb2ufKk7dsr', data: { Price: 2500, Name: 'Frutilla Banana' } }, { id: 'oLxmYqf45uPm08wmPOr4', data: { Price: 2500, Name: 'Oreo glaseado' } }, { id: 'pSvZvbOOUheQoJ3nHJ0n', data: { Price: 2500, Name: 'Vegetariano' } }]
 
 const getProductsList = async () => {
   products.value = await getProducts()
 }
 
-const selectOptions = [
+const selectOptionsPaymentTypes = [
   { id: 1, label: 'Efectivo' },
   { id: 2, label: 'RedCompra' },
   { id: 3, label: 'Transferencia' }
 ]
 
 const form = reactive({
-  name: 'John Doe',
-  email: 'john.doe@example.com',
-  phone: '',
-  department: selectOptions[0],
-  subject: '',
-  question: '',
-  total: 0,
-  totalQuantity: 0
+  paymentType: selectOptionsPaymentTypes[0],
+  totalPrice: 0,
+  totalQuantity: 0,
+  extraPrice: 0,
+  extraQuantity: 0,
+  note: '',
+  products
+})
+const totalQuantity = computed(() => {
+  const quantity = []
+  form.products.map(elem => {
+    if (!elem.data.Quantity) {
+      return quantity.push(0)
+    } else {
+      return quantity.push(elem.data.Quantity)
+    }
+  })
+  const tQuantity = quantity.reduce((value, element) => value + element) + form.extraQuantity
+  return tQuantity
+})
+
+const totalPrice = computed(() => {
+  const prices = []
+  form.products.map(elem => {
+    if (!elem.data.Quantity) {
+      return prices.push(0)
+    } else {
+      return prices.push(elem.data.Quantity * elem.data.Price)
+    }
+  })
+  const tPrice = prices.reduce((value, element) => value + element) + (form.extraPrice * form.extraQuantity)
+  return tPrice
 })
 
 const submit = () => {
-  //
+  form.totalQuantity = totalQuantity.value
+  form.totalPrice = totalPrice.value
+  console.log(form)
 }
 </script>
 
@@ -69,7 +101,7 @@ const submit = () => {
         Quantity
       </product-field>
       <div
-        v-for="product in products"
+        v-for="product in form.products"
         :key="product.data.Name"
       >
         <ProductField
@@ -77,6 +109,7 @@ const submit = () => {
           :extra-label="`${product.data.Price}$` "
         >
           <vue-number-input
+            v-model="product.data.Quantity"
             :min="0"
             center
             inline
@@ -87,12 +120,14 @@ const submit = () => {
       </div>
       <field
         label="Extra..."
-        help="Name and Price"
+        help="Price and quantity"
       >
         <control
+          v-model="form.extraPrice"
           type="text"
         />
         <vue-number-input
+          v-model="form.extraQuantity"
           :min="0"
           center
           :inputtable="false"
@@ -101,8 +136,8 @@ const submit = () => {
       </field>
       <field label="Payment Type">
         <control
-          v-model="form.department"
-          :options="selectOptions"
+          v-model="form.paymentType"
+          :options="selectOptionsPaymentTypes"
         />
       </field>
 
@@ -113,6 +148,7 @@ const submit = () => {
         help="(Optional). Max 255 characters"
       >
         <control
+          v-model="form.note"
           type="textarea"
           placeholder="Something special to add"
         />
@@ -123,12 +159,12 @@ const submit = () => {
       <product-field
         label="Total"
       >
-        {{ form.total }}$
+        {{ totalPrice }}$
       </product-field>
       <product-field
         label="Total quantity"
       >
-        {{ form.totalQuantity }}
+        {{ totalQuantity }}
       </product-field>
 
       <divider />

@@ -23,8 +23,6 @@ onMounted(async () => {
   getProductsList()
 })
 
-// const products = [{ Price: 2500, Name: 'Jamón' }, { Price: 2500, Name: 'Tocino' }, { Price: 2500, Name: 'Frutilla banana' }, { Name: 'Oreo glaseado', Price: 2500 }]
-
 const getProductsList = async () => {
   products.value = await getProducts()
 }
