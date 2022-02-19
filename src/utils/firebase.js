@@ -32,10 +32,15 @@ export async function getProducts () {
 }
 
 // Add new Product
-export async function addNewProduct (newOrder) {
-  await addDoc(collection(db, 'products'), { Name: newOrder.Name, Price: parseInt(newOrder.Price) })
+export async function addNewProduct (newProduct) {
+  await addDoc(collection(db, 'products'), { Name: newProduct.Name, Price: parseInt(newProduct.Price) })
 }
 // Delete Product
 export async function deleteProduct (productId) {
   await deleteDoc(doc(db, 'products', productId))
+}
+
+// Add new order
+export async function addNeworder (newOrder) {
+  await addDoc(collection(db, 'orders'), newOrder)
 }

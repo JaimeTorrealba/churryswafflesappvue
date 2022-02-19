@@ -1,6 +1,8 @@
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
-import { getProducts } from '@/utils/firebase'
+import { getProducts, addNeworder } from '@/utils/firebase'
+import useVuelidate from '@vuelidate/core'
+import { numeric, minValue } from '@vuelidate/validators'
 
 import { mdiBallot, mdiBallotOutline } from '@mdi/js'
 import MainSection from '@/components/MainSection.vue'
@@ -15,22 +17,26 @@ import JbButton from '@/components/JbButton.vue'
 import JbButtons from '@/components/JbButtons.vue'
 import TitleSubBar from '@/components/TitleSubBar.vue'
 
-// TODO: add form validation
 // TODO: add create order firebase
 // TODO: teste flow
 // TODO: start login process
-
 const titleStack = ref(['Admin', 'New order'])
-// const products = ref([])
+const products = ref([])
+
 onMounted(async () => {
-  // getProductsList()
+  console.log('before')
+  getProductsList()
+  console.log('after')
 })
-const products = [{ id: 'HTZtgMai987xYgqJDjIK', data: { Price: 2500, Name: 'Jamón' } }, { id: 'Vj9AIkYF8tb2ufKk7dsr', data: { Price: 2500, Name: 'Frutilla Banana' } }, { id: 'oLxmYqf45uPm08wmPOr4', data: { Price: 2500, Name: 'Oreo glaseado' } }, { id: 'pSvZvbOOUheQoJ3nHJ0n', data: { Price: 2500, Name: 'Vegetariano' } }]
-
+console.log('dsds', products.value)
 const getProductsList = async () => {
+  console.log('before list')
   products.value = await getProducts()
+  console.log('after list')
 }
-
+const productWrapper = reactive({
+  products
+})
 const selectOptionsPaymentTypes = [
   { id: 1, label: 'Efectivo' },
   { id: 2, label: 'RedCompra' },
@@ -44,38 +50,64 @@ const form = reactive({
   extraPrice: 0,
   extraQuantity: 0,
   note: '',
-  products
+  date: new Date(),
+  isPaid: false
 })
+
+const rules = {
+  extraPrice: { numeric },
+  totalQuantity: { minValue: minValue(1) }
+}
+const v$ = useVuelidate(rules, form)
 const totalQuantity = computed(() => {
-  const quantity = []
-  form.products.map(elem => {
-    if (!elem.data.Quantity) {
-      return quantity.push(0)
-    } else {
-      return quantity.push(elem.data.Quantity)
-    }
-  })
-  const tQuantity = quantity.reduce((value, element) => value + element) + form.extraQuantity
-  return tQuantity
+  if (productWrapper.products.length > 1) {
+    const quantity = []
+    productWrapper.products.map(elem => {
+      if (!elem.data?.Quantity) {
+        return quantity.push(0)
+      } else {
+        return quantity.push(elem.data.Quantity)
+      }
+    })
+    const tQuantity = quantity.reduce((value, element) => value + element) + form.extraQuantity
+    return tQuantity
+  }
+  return false
 })
 
 const totalPrice = computed(() => {
-  const prices = []
-  form.products.map(elem => {
-    if (!elem.data.Quantity) {
-      return prices.push(0)
-    } else {
-      return prices.push(elem.data.Quantity * elem.data.Price)
-    }
-  })
-  const tPrice = prices.reduce((value, element) => value + element) + (form.extraPrice * form.extraQuantity)
-  return tPrice
+  if (productWrapper.products.length > 1) {
+    const prices = []
+    productWrapper.products.map(elem => {
+      if (!elem.data?.Quantity) {
+        return prices.push(0)
+      } else {
+        return prices.push(elem.data.Quantity * elem.data.Price)
+      }
+    })
+    const tPrice = prices.reduce((value, element) => value + element) + (form.extraPrice * form.extraQuantity)
+    return tPrice
+  }
+
+  return false
 })
 
-const submit = () => {
+const submit = async () => {
+  const finalProducts = []
   form.totalQuantity = totalQuantity.value
   form.totalPrice = totalPrice.value
-  console.log(form)
+  productWrapper.products.map(elem => {
+    if (elem.data.Quantity) {
+      finalProducts.push(elem)
+    }
+    return true
+  })
+  form.products = finalProducts
+  if (v$.value.$invalid !== true) {
+    await addNeworder(form)
+  } else {
+    alert('error')
+  }
 }
 </script>
 
@@ -101,7 +133,7 @@ const submit = () => {
         Quantity
       </product-field>
       <div
-        v-for="product in form.products"
+        v-for="product in productWrapper.products"
         :key="product.data.Name"
       >
         <ProductField
@@ -134,6 +166,15 @@ const submit = () => {
           controls
         />
       </field>
+      <div
+        v-for="error of v$.extraPrice.$silentErrors"
+        :key="error.$uid"
+        class="input-errors"
+      >
+        <div class="error-msg">
+          {{ error.$message }}
+        </div>
+      </div>
       <field label="Payment Type">
         <control
           v-model="form.paymentType"
@@ -166,9 +207,16 @@ const submit = () => {
       >
         {{ totalQuantity }}
       </product-field>
-
+      <div
+        v-for="error of v$.totalQuantity.$silentErrors"
+        :key="error.$uid"
+        class="input-errors"
+      >
+        <div class="error-msg">
+          {{ error.$message }}
+        </div>
+      </div>
       <divider />
-
       <jb-buttons>
         <jb-button
           type="submit"
