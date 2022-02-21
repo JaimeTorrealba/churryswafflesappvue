@@ -1,40 +1,39 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { mdiCartOutline } from '@mdi/js'
-import * as chartConfig from '@/components/Charts/chart.config.js'
 import MainSection from '@/components/MainSection.vue'
 import TitleBar from '@/components/TitleBar.vue'
 import HeroBar from '@/components/HeroBar.vue'
+import CardComponent from '@/components/CardComponent.vue'
+import ClientsTable from '@/components/dashboard/newOrdersTable.vue'
 import CardWidget from '@/components/CardWidget.vue'
 
 const titleStack = ref(['Admin', 'Dashboard'])
-
-const chartData = ref(null)
-
-const fillChartData = () => {
-  chartData.value = chartConfig.sampleChartData()
-}
-
-onMounted(() => {
-  fillChartData()
-})
 
 </script>
 
 <template>
   <title-bar :title-stack="titleStack" />
-  <hero-bar>Dashboard</hero-bar>
+  <hero-bar>New orders </hero-bar>
   <main-section>
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6">
       <card-widget
         trend="12%"
-        trend-type="down"
+        trend-type="up"
         color="text-blue-500"
         :icon="mdiCartOutline"
         :number="7770"
         prefix="$"
-        label="Ventas del mes"
+        label="Total from the app"
       />
     </div>
+    <card-component
+      class="mb-6"
+      title="Last orders"
+      :icon="mdiAccountMultiple"
+      has-table
+    >
+      <clients-table />
+    </card-component>
   </main-section>
 </template>

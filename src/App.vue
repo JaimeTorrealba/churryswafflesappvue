@@ -10,8 +10,8 @@ import Overlay from '@/components/Overlay.vue'
 const store = useStore()
 
 store.commit('user', {
-  name: 'John Doe',
-  email: 'john@example.com'
+  name: 'Gregory mijares',
+  email: 'asdsa@example.com'
 })
 
 const isAsideLgActive = computed(() => store.state.isAsideLgActive)

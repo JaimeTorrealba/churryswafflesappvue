@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { mdiEye, mdiTrashCan } from '@mdi/js'
 import ModalBox from '@/components/ModalBox.vue'
@@ -24,7 +24,12 @@ const tableTrOddStyle = computed(() => store.state.tableTrOddStyle)
 
 const darkMode = computed(() => store.state.darkMode)
 
-const items = computed(() => store.state.clients)
+const items = computed(() => store.state.orders)
+//const items = [ { "id": "Hx1V5MxbrYVdyoyEQkxk", "data": { "isPaid": false, "products": [ { "data": { "Price": 2500, "Quantity": 1, "Name": "Oreo glaseado" }, "id": "oLxmYqf45uPm08wmPOr4" } ], "totalPrice": 2500, "note": "Pedido de prueba", "paymentType": { "id": 1, "label": "Efectivo" }, "client": "Jaime", "totalQuantity": 1, "extraPrice": 0, "date": "20 feb 2022, 21:23", "extraQuantity": 0 } } ]
+
+const orderWrapper = reactive({
+  items
+})
 
 const isModalActive = ref(false)
 
@@ -37,10 +42,20 @@ const currentPage = ref(0)
 const checkedRows = ref([])
 
 const itemsPaginated = computed(
-  () => items.value.slice(perPage.value * currentPage.value, perPage.value * (currentPage.value + 1))
+  () => {
+    if (orderWrapper.items.length > 0) {
+      return orderWrapper.items.slice(perPage.value * currentPage.value, perPage.value * (currentPage.value + 1))
+    }
+    return false
+  }
 )
 
-const numPages = computed(() => Math.ceil(items.value.length / perPage.value))
+const numPages = computed(() => {
+  if (orderWrapper.items.length > 0) {
+    return Math.ceil(orderWrapper.items.length / perPage.value)
+  }
+  return false
+})
 
 const currentPageHuman = computed(() => currentPage.value + 1)
 
@@ -54,25 +69,6 @@ const pagesList = computed(() => {
   return pagesList
 })
 
-const remove = (arr, cb) => {
-  const newArr = []
-
-  arr.forEach(item => {
-    if (!cb(item)) {
-      newArr.push(item)
-    }
-  })
-
-  return newArr
-}
-
-const checked = (isChecked, client) => {
-  if (isChecked) {
-    checkedRows.value.push(client)
-  } else {
-    checkedRows.value = remove(checkedRows.value, row => row.id === client.id)
-  }
-}
 </script>
 
 <template>
@@ -108,61 +104,48 @@ const checked = (isChecked, client) => {
       {{ checkedRow.name }}
     </span>
   </div>
-
+  <!-- {{orderWrapper.items}} -->
   <table>
     <thead>
       <tr>
         <th v-if="checkable" />
-        <th />
-        <th>Name</th>
-        <th>Company</th>
-        <th>City</th>
-        <th>Progress</th>
+        <th>Client</th>
+        <th>Price</th>
+        <th>N° Products</th>
+        <th>Payment type</th>
         <th>Created</th>
         <th />
       </tr>
     </thead>
     <tbody>
       <tr
-        v-for="(client, index) in itemsPaginated"
-        :key="client.id"
+        v-for="(order, index) in itemsPaginated"
+        :key="order.id"
         :class="[tableTrStyle, index % 2 === 0 ? tableTrOddStyle : '']"
       >
         <checkbox-cell
           v-if="checkable"
-          @checked="checked($event, client)"
+          @checked="checked($event, order)"
         />
-        <td class="image-cell">
-          <user-avatar
-            :username="client.name"
-            class="image"
-          />
+        <td data-label="Client">
+          {{ order.data.client }}
         </td>
-        <td data-label="Name">
-          {{ client.name }}
-        </td>
-        <td data-label="Company">
-          {{ client.company }}
-        </td>
-        <td data-label="City">
-          {{ client.city }}
+        <td data-label="Total price">
+          {{ order.data.totalPrice }}
         </td>
         <td
-          data-label="Progress"
-          class="progress-cell"
+          data-label="Total quantity"
         >
-          <progress
-            max="100"
-            :value="client.progress"
-          >
-            {{ client.progress }}
-          </progress>
+          {{ order.data.totalQuantity }}
+        </td>
+        <td data-label="Total price">
+          {{ order.data.paymentType.label }}
         </td>
         <td data-label="Created">
           <small
             class="text-gray-500 dark:text-gray-400"
-            :title="client.created"
-          >{{ client.created }}</small>
+            :title="order.created"
+          >{{ order.data.date }}</small>
         </td>
         <td class="actions-cell">
           <jb-buttons

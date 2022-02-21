@@ -1,8 +1,10 @@
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
-import { getProducts, addNeworder } from '@/utils/firebase'
+import { ref, reactive, computed } from 'vue'
+import { addNewOrder } from '@/utils/firebase'
 import useVuelidate from '@vuelidate/core'
-import { numeric, minValue } from '@vuelidate/validators'
+import { numeric, minValue, required } from '@vuelidate/validators'
+import { useStore } from 'vuex'
+import { DateTime } from 'luxon'
 
 import { mdiBallot, mdiBallotOutline } from '@mdi/js'
 import MainSection from '@/components/MainSection.vue'
@@ -17,23 +19,15 @@ import JbButton from '@/components/JbButton.vue'
 import JbButtons from '@/components/JbButtons.vue'
 import TitleSubBar from '@/components/TitleSubBar.vue'
 
-// TODO: add create order firebase
+// TODO: agregar modales de error y limpiar los campos
 // TODO: teste flow
 // TODO: start login process
 const titleStack = ref(['Admin', 'New order'])
-const products = ref([])
 
-onMounted(async () => {
-  console.log('before')
-  getProductsList()
-  console.log('after')
-})
-console.log('dsds', products.value)
-const getProductsList = async () => {
-  console.log('before list')
-  products.value = await getProducts()
-  console.log('after list')
-}
+const store = useStore()
+
+const products = computed(() => store.state.products)
+
 const productWrapper = reactive({
   products
 })
@@ -49,18 +43,20 @@ const form = reactive({
   totalQuantity: 0,
   extraPrice: 0,
   extraQuantity: 0,
+  client: '',
   note: '',
-  date: new Date(),
+  date: DateTime.now().toLocaleString(DateTime.DATETIME_MED),
   isPaid: false
 })
 
 const rules = {
   extraPrice: { numeric },
-  totalQuantity: { minValue: minValue(1) }
+  totalQuantity: { minValue: minValue(1) },
+  client: { required }
 }
 const v$ = useVuelidate(rules, form)
 const totalQuantity = computed(() => {
-  if (productWrapper.products.length > 1) {
+  if (productWrapper.products.length > 0) {
     const quantity = []
     productWrapper.products.map(elem => {
       if (!elem.data?.Quantity) {
@@ -76,7 +72,7 @@ const totalQuantity = computed(() => {
 })
 
 const totalPrice = computed(() => {
-  if (productWrapper.products.length > 1) {
+  if (productWrapper.products.length > 0) {
     const prices = []
     productWrapper.products.map(elem => {
       if (!elem.data?.Quantity) {
@@ -104,7 +100,7 @@ const submit = async () => {
   })
   form.products = finalProducts
   if (v$.value.$invalid !== true) {
-    await addNeworder(form)
+    await addNewOrder(form)
   } else {
     alert('error')
   }
@@ -149,6 +145,24 @@ const submit = async () => {
             controls
           />
         </ProductField>
+      </div>
+      <field
+        label="*Client name"
+        help="Client name"
+      >
+        <control
+          v-model="form.client"
+          type="text"
+        />
+      </field>
+      <div
+        v-for="error of v$.client.$silentErrors"
+        :key="error.$uid"
+        class="input-errors"
+      >
+        <div class="error-msg">
+          {{ error.$message }}
+        </div>
       </div>
       <field
         label="Extra..."

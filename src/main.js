@@ -8,9 +8,8 @@ import VueNumberInput from '@chenfengyuan/vue-number-input'
 
 import './css/main.css'
 
-/* Fetch sample data */
-store.dispatch('fetch', 'clients')
-store.dispatch('fetch', 'history')
+store.dispatch('getAllProducts', 'products')
+store.dispatch('getAllOrders', 'orders')
 
 /* App style */
 store.dispatch('setStyle', localStorage[styleKey] = 'basic')

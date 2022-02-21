@@ -1,8 +1,9 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
-import { getProducts, addNewProduct, deleteProduct } from '@/utils/firebase'
+import { ref, reactive, computed } from 'vue'
+import { addNewProduct, deleteProduct } from '@/utils/firebase'
 import useVuelidate from '@vuelidate/core'
 import { required, numeric } from '@vuelidate/validators'
+import { useStore } from 'vuex'
 
 import { mdiBallot, mdiBallotOutline } from '@mdi/js'
 import MainSection from '@/components/MainSection.vue'
@@ -17,27 +18,22 @@ import JbButton from '@/components/JbButton.vue'
 import JbButtons from '@/components/JbButtons.vue'
 import TitleSubBar from '@/components/TitleSubBar.vue'
 
-const titleStack = ref(['Admin', 'Products sanagment'])
-const products = ref([])
-onMounted(async () => {
-  getProductsList()
-})
+const titleStack = ref(['Admin', 'Products'])
+const store = useStore()
 
-const getProductsList = async () => {
-  products.value = await getProducts()
-}
+const products = computed(() => store.state.products)
 
 const submit = async () => {
   if (v$.value.$invalid !== true) {
     await addNewProduct(form)
-    await getProductsList()
+    store.dispatch('getAllProducts', 'products') // Eliminar llamada en un futuro
   } else {
     alert('Error')
   }
 }
 const deleteSelectedProduct = async (productID) => {
   await deleteProduct(productID)
-  await getProductsList()
+  store.dispatch('getAllProducts', 'products') // Eliminar llamada en un futuro
 }
 const form = reactive({
   Name: null,

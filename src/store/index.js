@@ -1,10 +1,13 @@
 import { createStore } from 'vuex'
-import axios from 'axios'
 import { darkModeKey, styleKey } from '@/config.js'
+import { getProducts, getOrders } from '@/utils/firebase'
 import * as styles from '@/styles.js'
 
 export default createStore({
   state: {
+    products: [],
+    orders: [],
+
     /* Styles */
     lightBorderStyle: '',
     lightBgStyle: '',
@@ -39,11 +42,8 @@ export default createStore({
     darkMode: false,
 
     /* Field focus with ctrl+k (to register only once) */
-    isFieldFocusRegistered: false,
+    isFieldFocusRegistered: false
 
-    /* Sample data (commonly used) */
-    clients: [],
-    history: []
   },
   mutations: {
     /* A fit-them-all commit */
@@ -121,21 +121,19 @@ export default createStore({
         value
       })
     },
-
-    fetch ({ commit }, payload) {
-      axios
-        .get(`data-sources/${payload}.json`)
-        .then((r) => {
-          if (r.data && r.data.data) {
-            commit('basic', {
-              key: payload,
-              value: r.data.data
-            })
-          }
-        })
-        .catch(error => {
-          alert(error.message)
-        })
+    async getAllProducts ({ commit }, payload) {
+      const products = await getProducts()
+      commit('basic', {
+        key: payload,
+        value: products
+      })
+    },
+    async getAllOrders ({ commit }, payload) {
+      const products = await getOrders()
+      commit('basic', {
+        key: payload,
+        value: products
+      })
     }
   },
   modules: {

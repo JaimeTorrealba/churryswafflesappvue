@@ -17,6 +17,8 @@ const app = initializeApp(firebaseConfig)
 
 const db = getFirestore(app)
 
+// PRODUCTS
+
 // Get product list
 export async function getProducts () {
   const getProductsDB = collection(db, 'products')
@@ -40,7 +42,24 @@ export async function deleteProduct (productId) {
   await deleteDoc(doc(db, 'products', productId))
 }
 
+// ORDERS
+
 // Add new order
-export async function addNeworder (newOrder) {
+export async function addNewOrder (newOrder) {
   await addDoc(collection(db, 'orders'), newOrder)
+}
+
+// Get order list
+export async function getOrders () {
+  const getOrdersDB = collection(db, 'orders')
+  const ordersSnapshot = await getDocs(getOrdersDB)
+  const ordersListData = ordersSnapshot.docs.map(doc => {
+    const responseWithId = {
+      id: doc.id,
+      data: doc.data()
+    }
+    return responseWithId
+  })
+  console.log(ordersListData);
+  return ordersListData
 }
