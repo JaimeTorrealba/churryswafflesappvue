@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 import { darkModeKey, styleKey } from '@/config.js'
-import { getProducts, getOrders } from '@/utils/firebase'
+import { getProducts, getUnpaidOrders } from '@/utils/firebase'
 import * as styles from '@/styles.js'
 
 export default createStore({
@@ -129,10 +129,27 @@ export default createStore({
       })
     },
     async getAllOrders ({ commit }, payload) {
-      const products = await getOrders()
+      const orders = await getUnpaidOrders()
       commit('basic', {
         key: payload,
-        value: products
+        value: orders
+      })
+    },
+    // For Develop
+    async getAllOrdersDevelop ({ commit }, payload) {
+      const orders = await fetch('../../public/data-sources/orders.json')
+      const formattedOrders = await orders.json()
+      commit('basic', {
+        key: payload,
+        value: formattedOrders
+      })
+    },
+    async getAllProductsDevelop ({ commit }, payload) {
+      const products = await fetch('../../public/data-sources/products.json')
+      const formattedProducts = await products.json()
+      commit('basic', {
+        key: payload,
+        value: formattedProducts
       })
     }
   },

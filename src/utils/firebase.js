@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore/lite'
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc, orderBy } from 'firebase/firestore/lite'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -30,6 +30,7 @@ export async function getProducts () {
     }
     return responseWithId
   })
+  console.log(productsListData)
   return productsListData
 }
 
@@ -50,9 +51,11 @@ export async function addNewOrder (newOrder) {
 }
 
 // Get order list
-export async function getOrders () {
+export async function getUnpaidOrders () {
   const getOrdersDB = collection(db, 'orders')
-  const ordersSnapshot = await getDocs(getOrdersDB)
+  // const consult = query(getOrdersDB, where('isPaid', '==', false)) activar cuando sean muchas ordenes
+  // const ordersSnapshot = await getDocs(consult, orderBy('date'))
+  const ordersSnapshot = await getDocs(getOrdersDB, orderBy('date'))
   const ordersListData = ordersSnapshot.docs.map(doc => {
     const responseWithId = {
       id: doc.id,
@@ -60,6 +63,17 @@ export async function getOrders () {
     }
     return responseWithId
   })
-  console.log(ordersListData);
+  console.log(ordersListData)
   return ordersListData
+}
+// delete order
+export async function deleteOrder (orderId) {
+  await deleteDoc(doc(db, 'orders', orderId))
+}
+// update order
+export async function paidOrder (order) {
+  const orderRef = doc(db, 'orders', order.id)
+  await updateDoc(orderRef, {
+    isPaid: true
+  })
 }

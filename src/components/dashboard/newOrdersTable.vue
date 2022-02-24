@@ -1,12 +1,15 @@
 <script setup>
 import { computed, ref, reactive } from 'vue'
 import { useStore } from 'vuex'
-import { mdiEye, mdiTrashCan } from '@mdi/js'
+import { deleteOrder, paidOrder } from '@/utils/firebase.js'
+import { mdiEye, mdiCheck, mdiPrinter, mdiFileDocumentEdit } from '@mdi/js'
 import ModalBox from '@/components/ModalBox.vue'
-import CheckboxCell from '@/components/CheckboxCell.vue'
 import Level from '@/components/Level.vue'
 import JbButtons from '@/components/JbButtons.vue'
 import JbButton from '@/components/JbButton.vue'
+import Divider from '@/components/Divider.vue'
+
+// TODO: agregar extra en modal
 
 defineProps({
   checkable: Boolean
@@ -16,8 +19,6 @@ const store = useStore()
 
 const lightBorderStyle = computed(() => store.state.lightBorderStyle)
 
-const lightBgStyle = computed(() => store.state.lightBgStyle)
-
 const tableTrStyle = computed(() => store.state.tableTrStyle)
 
 const tableTrOddStyle = computed(() => store.state.tableTrOddStyle)
@@ -25,7 +26,6 @@ const tableTrOddStyle = computed(() => store.state.tableTrOddStyle)
 const darkMode = computed(() => store.state.darkMode)
 
 const items = computed(() => store.state.orders)
-//const items = [ { "id": "Hx1V5MxbrYVdyoyEQkxk", "data": { "isPaid": false, "products": [ { "data": { "Price": 2500, "Quantity": 1, "Name": "Oreo glaseado" }, "id": "oLxmYqf45uPm08wmPOr4" } ], "totalPrice": 2500, "note": "Pedido de prueba", "paymentType": { "id": 1, "label": "Efectivo" }, "client": "Jaime", "totalQuantity": 1, "extraPrice": 0, "date": "20 feb 2022, 21:23", "extraQuantity": 0 } } ]
 
 const orderWrapper = reactive({
   items
@@ -39,12 +39,11 @@ const perPage = ref(10)
 
 const currentPage = ref(0)
 
-const checkedRows = ref([])
-
 const itemsPaginated = computed(
   () => {
     if (orderWrapper.items.length > 0) {
-      return orderWrapper.items.slice(perPage.value * currentPage.value, perPage.value * (currentPage.value + 1))
+      const filterList = orderWrapper.items.filter((elem) => elem.data.isPaid === false)
+      return filterList.slice(perPage.value * currentPage.value, perPage.value * (currentPage.value + 1))
     }
     return false
   }
@@ -69,46 +68,88 @@ const pagesList = computed(() => {
   return pagesList
 })
 
+const selectedItem = reactive({
+  data: ''
+})
+const deleteOrderFromTable = async (order) => {
+  await deleteOrder(order)
+  store.dispatch('getAllOrders', 'orders')
+  isModalActive.value = false
+}
+const paidSelectedOrderFromTable = async (order) => {
+  await paidOrder(order)
+  store.dispatch('getAllOrders', 'orders')
+  isModalDangerActive.value = false
+  alert('La orden se marco como pagada de manera correcta')
+}
+const selectItem = (order) => {
+  selectedItem.data = order
+}
+const notYet = () => {
+  alert('Function en construccion')
+}
 </script>
 
 <template>
   <modal-box
     v-model="isModalActive"
-    title="Sample modal"
+    title="Order Options"
   >
-    <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-    <p>This is sample modal</p>
+    <div class="flex justify-between">
+      <jb-button
+        label="Print (not yet)"
+        :icon="mdiPrinter "
+        @click="notYet()"
+      />
+      <jb-button
+        label="Modify (not yet)"
+        color="info"
+        :icon="mdiFileDocumentEdit "
+        @click="notYet()"
+      />
+      <jb-button
+        label="Delete"
+        color="danger"
+        :icon="mdiPrinter "
+        @click="deleteOrderFromTable(selectedItem.data.id)"
+      />
+    </div>
+    <divider />
+    <ul>
+      <li>Client Name: <b>{{ selectedItem.data?.data?.client }} </b></li>
+      <li>Date: <b>{{ selectedItem.data?.data?.date }} </b></li>
+      <li>Total Price: <b>{{ selectedItem.data?.data?.totalPrice }}</b></li>
+      <li>Total Items: <b>{{ selectedItem.data?.data?.totalQuantity }}</b></li>
+      <li>Notes: {{ selectedItem.data?.data?.note || 'No notes' }}</li>
+      <li v-if="selectedItem.data?.data?.extraQuantity">
+        This order has extra products, total:{{ selectedItem.data?.data?.extraQuantity }}
+        and a total of {{ selectedItem.data?.data?.extraPrice }}
+      </li>
+    </ul>
+    <h3><b>Products:</b></h3>
+    <ul
+      v-for="product in selectedItem.data?.data?.products"
+      :key="product.Name"
+    >
+      <li>Nombre: <b>{{ product.data?.Name }}</b></li>
+      <li>Precio: <b>{{ product.data?.Price }}</b></li>
+      <li>Quantity: <b>{{ product.data?.Quantity }}</b></li>
+    </ul>
   </modal-box>
 
   <modal-box
     v-model="isModalDangerActive"
-    large-title="Please confirm"
-    button="danger"
+    large-title="Confirm order"
+    button="success"
     has-cancel
+    @effect="paidSelectedOrderFromTable(selectedItem.data)"
   >
-    <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-    <p>This is sample modal</p>
+    <p>Marcar como <b>entregado</b></p>
+    <p>Esta accion enviará la orden al historial de ordenes (donde no se podran realizar modificaciones posteriores</p>
   </modal-box>
-
-  <div
-    v-if="checkedRows.length"
-    class="bg-opacity-50 p-3 dark:bg-gray-800"
-    :class="lightBgStyle"
-  >
-    <span
-      v-for="checkedRow in checkedRows"
-      :key="checkedRow.id"
-      class="inline-block px-2 py-1 rounded-sm mr-2 text-sm dark:bg-gray-700"
-      :class="lightBgStyle"
-    >
-      {{ checkedRow.name }}
-    </span>
-  </div>
-  <!-- {{orderWrapper.items}} -->
   <table>
     <thead>
       <tr>
-        <th v-if="checkable" />
         <th>Client</th>
         <th>Price</th>
         <th>N° Products</th>
@@ -123,10 +164,6 @@ const pagesList = computed(() => {
         :key="order.id"
         :class="[tableTrStyle, index % 2 === 0 ? tableTrOddStyle : '']"
       >
-        <checkbox-cell
-          v-if="checkable"
-          @checked="checked($event, order)"
-        />
         <td data-label="Client">
           {{ order.data.client }}
         </td>
@@ -156,13 +193,18 @@ const pagesList = computed(() => {
               color="info"
               :icon="mdiEye"
               small
-              @click="isModalActive = true"
+              @click="isModalActive = true; selectItem(order)"
             />
             <jb-button
-              color="danger"
-              :icon="mdiTrashCan"
+              :icon="mdiPrinter "
               small
-              @click="isModalDangerActive = true"
+              @click="notYet()"
+            />
+            <jb-button
+              color="success"
+              :icon="mdiCheck"
+              small
+              @click="isModalDangerActive = true; selectItem(order)"
             />
           </jb-buttons>
         </td>

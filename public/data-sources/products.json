@@ -1,0 +1,212 @@
+[
+    {
+        "id": "0os3mSL7OvxAX8C15hwV",
+        "data": {
+            "Name": "Jugo de Piña",
+            "Price": 2000
+        }
+    },
+    {
+        "id": "2fvj0IurhuUSt2CfXQxu",
+        "data": {
+            "Price": 3500,
+            "Name": "Jamón"
+        }
+    },
+    {
+        "id": "35rpmbCN6XvuRNdQSEug",
+        "data": {
+            "Price": 1500,
+            "Name": "Papelón con limón"
+        }
+    },
+    {
+        "id": "3uzhhdzAhPlFbZiCvOh3",
+        "data": {
+            "Price": 2000,
+            "Name": "Plátano leche"
+        }
+    },
+    {
+        "id": "4FNXF48rUDPD6t3Ap5Qn",
+        "data": {
+            "Name": "Fanta",
+            "Price": 1200
+        }
+    },
+    {
+        "id": "4Iwzli752kI5Pl9UUfRV",
+        "data": {
+            "Price": 2000,
+            "Name": "Latte "
+        }
+    },
+    {
+        "id": "5i3o3XEIBXU9qDYWKtrV",
+        "data": {
+            "Price": 3500,
+            "Name": "vegetariano"
+        }
+    },
+    {
+        "id": "C8CqURD7zPmy32GhCGq5",
+        "data": {
+            "Price": 4000,
+            "Name": "Helado"
+        }
+    },
+    {
+        "id": "CIh1KIy5UMxYbLYxEcFC",
+        "data": {
+            "Price": 1000,
+            "Name": "Agua sin gas"
+        }
+    },
+    {
+        "id": "GQFCetizDPytZ824NsUE",
+        "data": {
+            "Price": 1200,
+            "Name": "Sprite"
+        }
+    },
+    {
+        "id": "Pyw4KZXxaAuikRqEq7fr",
+        "data": {
+            "Name": "Agua con gas",
+            "Price": 1000
+        }
+    },
+    {
+        "id": "RpfuWqWPfYNA75CMI0Nm",
+        "data": {
+            "Name": "Choco Maní",
+            "Price": 3500
+        }
+    },
+    {
+        "id": "SvKADdnyThKGtIAFG1li",
+        "data": {
+            "Price": 500,
+            "Name": "Té"
+        }
+    },
+    {
+        "id": "Sy3A6Ju6a5Tsvq6WMH5h",
+        "data": {
+            "Name": "Frutilla banana",
+            "Price": 3500
+        }
+    },
+    {
+        "id": "VpqAK5RmFyxr2qxC717T",
+        "data": {
+            "Name": "Chocolate caliente",
+            "Price": 2300
+        }
+    },
+    {
+        "id": "aZIjbq3vIxAG6QC4qTAb",
+        "data": {
+            "Price": 2300,
+            "Name": "Jugo de Chirimoya"
+        }
+    },
+    {
+        "id": "cjX7xyDaaXRKIx2kMAOi",
+        "data": {
+            "Price": 2000,
+            "Name": "Vienés"
+        }
+    },
+    {
+        "id": "cpdFrktzPI7hDBVJFf1F",
+        "data": {
+            "Name": "Tocino",
+            "Price": 3500
+        }
+    },
+    {
+        "id": "gWz422IEoXHOQuXzhaHN",
+        "data": {
+            "Price": 1200,
+            "Name": "Coca Cola sin azúcar"
+        }
+    },
+    {
+        "id": "geWnEAISGiPgdKAd5HLy",
+        "data": {
+            "Price": 3500,
+            "Name": "Oreo Glaseado"
+        }
+    },
+    {
+        "id": "gugOm48X0mLP0wEdXqzH",
+        "data": {
+            "Price": 1200,
+            "Name": "Coca Cola original"
+        }
+    },
+    {
+        "id": "oBviRi6WCrN8Dii0h7FI",
+        "data": {
+            "Price": 2000,
+            "Name": "Bombón"
+        }
+    },
+    {
+        "id": "oHTj6k9UGJjMvej5DJbx",
+        "data": {
+            "Name": "Jugo de Mango",
+            "Price": 2300
+        }
+    },
+    {
+        "id": "qt5ytcpxrHDqaSQNRREL",
+        "data": {
+            "Price": 2000,
+            "Name": "Expresso grande"
+        }
+    },
+    {
+        "id": "sqruSejQVk7fqbE3kJ2N",
+        "data": {
+            "Price": 1800,
+            "Name": "Cappuccino"
+        }
+    },
+    {
+        "id": "u2I0JWo35CpHKWj6seZE",
+        "data": {
+            "Price": 2000,
+            "Name": "Jugo de Maracuyá"
+        }
+    },
+    {
+        "id": "w686QiKLhbyxLl2X2dLD",
+        "data": {
+            "Price": 1500,
+            "Name": "Expresso regular"
+        }
+    },
+    {
+        "id": "x7oHPFvsgega04dLC7B8",
+        "data": {
+            "Price": 2000,
+            "Name": "Americano grande"
+        }
+    },
+    {
+        "id": "xQRSkqegXx7wR6K6D6zQ",
+        "data": {
+            "Price": 1500,
+            "Name": "Americano regular"
+        }
+    },
+    {
+        "id": "zrOS1QhQYAx5u0ndWOzJ",
+        "data": {
+            "Price": 2000,
+            "Name": "Jugo de frutilla"
+        }
+    }
+]

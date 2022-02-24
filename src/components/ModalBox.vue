@@ -28,10 +28,15 @@ const props = defineProps({
   modelValue: {
     type: [String, Number, Boolean],
     default: null
+  },
+  effect: {
+    type: Function,
+    default () {
+      return false
+    }
   }
 })
-
-const emit = defineEmits(['update:modelValue', 'cancel', 'confirm'])
+const emit = defineEmits(['update:modelValue', 'cancel', 'confirm', 'effect'])
 
 const value = computed({
   get: () => props.modelValue,
@@ -43,7 +48,7 @@ const confirmCancel = mode => {
   emit(mode)
 }
 
-const confirm = () => confirmCancel('confirm')
+const confirm = () => emit('effect') || confirmCancel('cancel')
 
 const cancel = () => confirmCancel('cancel')
 </script>

@@ -27,6 +27,7 @@ const submit = async () => {
   if (v$.value.$invalid !== true) {
     await addNewProduct(form)
     store.dispatch('getAllProducts', 'products') // Eliminar llamada en un futuro
+    alert('Producto ingresado correctamente')
   } else {
     alert('Error')
   }

@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { mdiCartOutline } from '@mdi/js'
+import { mdiCartOutline, mdiAccountMultiple } from '@mdi/js'
 import MainSection from '@/components/MainSection.vue'
 import TitleBar from '@/components/TitleBar.vue'
 import HeroBar from '@/components/HeroBar.vue'

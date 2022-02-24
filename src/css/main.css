@@ -8,3 +8,8 @@
 @import "_scrollbars.css";
 @import "_progress.css";
 @import "_table.css";
+
+.input-errors{
+    margin-bottom: 2rem;
+    color: red;
+}

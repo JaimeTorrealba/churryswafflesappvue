@@ -5,6 +5,7 @@ import useVuelidate from '@vuelidate/core'
 import { numeric, minValue, required } from '@vuelidate/validators'
 import { useStore } from 'vuex'
 import { DateTime } from 'luxon'
+import { useRouter } from 'vue-router'
 
 import { mdiBallot, mdiBallotOutline } from '@mdi/js'
 import MainSection from '@/components/MainSection.vue'
@@ -20,11 +21,12 @@ import JbButtons from '@/components/JbButtons.vue'
 import TitleSubBar from '@/components/TitleSubBar.vue'
 
 // TODO: agregar modales de error y limpiar los campos
-// TODO: teste flow
-// TODO: start login process
+
 const titleStack = ref(['Admin', 'New order'])
 
 const store = useStore()
+
+const router = useRouter()
 
 const products = computed(() => store.state.products)
 
@@ -101,6 +103,9 @@ const submit = async () => {
   form.products = finalProducts
   if (v$.value.$invalid !== true) {
     await addNewOrder(form)
+    alert('orden ingresada correctamente')
+    store.dispatch('getAllOrders', 'orders')
+    router.push('/dashboard')
   } else {
     alert('error')
   }
@@ -165,8 +170,8 @@ const submit = async () => {
         </div>
       </div>
       <field
-        label="Extra..."
-        help="Price and quantity"
+        label="Extra... Price and Quantity"
+        help="You could add the description in the note section"
       >
         <control
           v-model="form.extraPrice"
