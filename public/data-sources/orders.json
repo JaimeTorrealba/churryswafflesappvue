@@ -119,7 +119,7 @@
             "totalQuantity": 3,
             "date": "22 feb 2022, 20:44",
             "extraPrice": 0,
-            "isPaid": false,
+            "isPaid": true,
             "paymentType": {
                 "id": 2,
                 "label": "RedCompra"

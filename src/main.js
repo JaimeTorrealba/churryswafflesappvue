@@ -8,7 +8,7 @@ import VueNumberInput from '@chenfengyuan/vue-number-input'
 
 import './css/main.css'
 
-console.log('Enviroment', process.env.NODE_ENV)
+console.log('Enviroment:', process.env.NODE_ENV)
 if (process.env.NODE_ENV !== 'development') {
   store.dispatch('getAllProducts', 'products')
   store.dispatch('getAllOrders', 'orders')

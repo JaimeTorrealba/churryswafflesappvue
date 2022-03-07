@@ -1,8 +1,8 @@
 import {
   mdiDesktopMac,
   mdiSquareEditOutline,
-  mdiArchivePlus
-  // mdiTable,
+  mdiArchivePlus,
+  mdiTable
 } from '@mdi/js'
 
 export default [
@@ -15,12 +15,12 @@ export default [
     }
   ],
   [
-    // {
-    //   to: '/tables',
-    //   label: 'Tables',
-    //   icon: mdiTable,
-    //   updateMark: true
-    // },
+    {
+      to: '/orderHistory',
+      label: 'Order History',
+      icon: mdiTable,
+      updateMark: true
+    },
     {
       to: '/newOrder',
       label: 'Add new order',

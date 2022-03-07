@@ -1,15 +1,14 @@
 <script setup>
 import { computed, ref, reactive } from 'vue'
 import { useStore } from 'vuex'
-import { deleteOrder, paidOrder } from '@/utils/firebase.js'
-import { mdiEye, mdiCheck, mdiPrinter, mdiFileDocumentEdit } from '@mdi/js'
+import { paidOrder } from '@/utils/firebase.js'
+import { mdiEye, mdiPrinter } from '@mdi/js'
 import ModalBox from '@/components/ModalBox.vue'
 import Level from '@/components/Level.vue'
 import JbButtons from '@/components/JbButtons.vue'
 import JbButton from '@/components/JbButton.vue'
 import Divider from '@/components/Divider.vue'
 
-// TODO: agregar edit option
 // TODO: agregar print option
 
 defineProps({
@@ -43,7 +42,7 @@ const currentPage = ref(0)
 const itemsPaginated = computed(
   () => {
     if (orderWrapper.items.length > 0) {
-      const filterList = orderWrapper.items.filter((elem) => elem.data.isPaid === false)
+      const filterList = orderWrapper.items.filter((elem) => elem.data.isPaid === true)
       return filterList.slice(perPage.value * currentPage.value, perPage.value * (currentPage.value + 1))
     }
     return false
@@ -72,11 +71,6 @@ const pagesList = computed(() => {
 const selectedItem = reactive({
   data: ''
 })
-const deleteOrderFromTable = async (order) => {
-  await deleteOrder(order)
-  store.dispatch('getAllOrders', 'orders')
-  isModalActive.value = false
-}
 const paidSelectedOrderFromTable = async (order) => {
   await paidOrder(order)
   store.dispatch('getAllOrders', 'orders')
@@ -86,8 +80,8 @@ const paidSelectedOrderFromTable = async (order) => {
 const selectItem = (order) => {
   selectedItem.data = order
 }
-const notYet = () => {
-  alert('Function en construccion')
+const printPage = () => {
+  window.print()
 }
 </script>
 
@@ -98,21 +92,9 @@ const notYet = () => {
   >
     <div class="flex justify-between">
       <jb-button
-        label="Print (not yet)"
-        :icon="mdiPrinter "
-        @click="notYet()"
-      />
-      <jb-button
-        label="Modify (not yet)"
-        color="info"
-        :icon="mdiFileDocumentEdit "
-        @click="notYet()"
-      />
-      <jb-button
-        label="Delete"
-        color="danger"
-        :icon="mdiPrinter "
-        @click="deleteOrderFromTable(selectedItem.data.id)"
+        label="Print"
+        :icon="mdiPrinter"
+        @click="printPage()"
       />
     </div>
     <divider />
@@ -200,12 +182,6 @@ const notYet = () => {
               :icon="mdiPrinter "
               small
               @click="notYet()"
-            />
-            <jb-button
-              color="success"
-              :icon="mdiCheck"
-              small
-              @click="isModalDangerActive = true; selectItem(order)"
             />
           </jb-buttons>
         </td>

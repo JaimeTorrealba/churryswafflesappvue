@@ -1,19 +1,19 @@
 <script setup>
 import { ref } from 'vue'
-import { mdiTable } from '@mdi/js'
 import MainSection from '@/components/MainSection.vue'
+import { mdiTable } from '@mdi/js'
 import TitleBar from '@/components/TitleBar.vue'
 import HeroBar from '@/components/HeroBar.vue'
 import CardComponent from '@/components/CardComponent.vue'
-import ClientsTable from '@/components/dashboard/newOrdersTable.vue'
+import HistoryTable from '@/components/orderHistory/orderHistoryTable.vue'
 
-const titleStack = ref(['Admin', 'Dashboard'])
+const titleStack = ref(['Admin', 'History'])
 
 </script>
 
 <template>
   <title-bar :title-stack="titleStack" />
-  <hero-bar>New orders </hero-bar>
+  <hero-bar>Historial Orders </hero-bar>
   <main-section>
     <card-component
       class="mb-6"
@@ -21,7 +21,7 @@ const titleStack = ref(['Admin', 'Dashboard'])
       :icon="mdiTable"
       has-table
     >
-      <clients-table />
+      <history-table />
     </card-component>
   </main-section>
 </template>

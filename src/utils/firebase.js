@@ -55,7 +55,7 @@ export async function getUnpaidOrders () {
   const getOrdersDB = collection(db, 'orders')
   // const consult = query(getOrdersDB, where('isPaid', '==', false)) activar cuando sean muchas ordenes
   // const ordersSnapshot = await getDocs(consult, orderBy('date'))
-  const ordersSnapshot = await getDocs(getOrdersDB, orderBy('date'))
+  const ordersSnapshot = await getDocs(getOrdersDB, orderBy('date', 'desc')) // probar orden
   const ordersListData = ordersSnapshot.docs.map(doc => {
     const responseWithId = {
       id: doc.id,

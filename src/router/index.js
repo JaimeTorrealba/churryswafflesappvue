@@ -14,21 +14,18 @@ const routes = [
   },
   {
     meta: {
-      title: 'Tables'
+      title: 'OrderHistory'
     },
-    path: '/tables',
-    name: 'tables',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "tables" */ '@/views/Tables.vue')
+    path: '/orderHistory',
+    name: 'OrderHistory',
+    component: () => import(/* webpackChunkName: "tables" */ '@/views/OrderHistory.vue')
   },
   {
     meta: {
-      title: 'newOrder'
+      title: 'NewOrder'
     },
     path: '/newOrder',
-    name: 'newOrder',
+    name: 'NewOrder',
     component: () => import(/* webpackChunkName: "newOrder" */ '@/views/NewOrder.vue')
   },
   {
