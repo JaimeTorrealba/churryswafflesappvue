@@ -31,6 +31,8 @@ const router = useRouter()
 
 const products = computed(() => store.state.products)
 
+const userEmail = computed(() => store.state.userEmail)
+
 const productWrapper = reactive({
   products
 })
@@ -102,6 +104,7 @@ const submit = async () => {
     return true
   })
   form.products = finalProducts
+  form.user = userEmail.value
   if (v$.value.$invalid !== true) {
     await addNewOrder(form)
     alert('orden ingresada correctamente')
