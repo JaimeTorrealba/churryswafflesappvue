@@ -2,6 +2,9 @@
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { mdiAccount, mdiAsterisk } from '@mdi/js'
+import useVuelidate from '@vuelidate/core'
+import { email, required } from '@vuelidate/validators'
+
 import FullScreenSection from '@/components/FullScreenSection.vue'
 import CardComponent from '@/components/CardComponent.vue'
 import Field from '@/components/Field.vue'
@@ -16,15 +19,25 @@ const form = reactive({
   pass: ''
 })
 
+const rules = {
+  login: { email },
+  pass: { required }
+}
+const v$ = useVuelidate(rules, form)
+
 const router = useRouter()
 
 const submit = async () => {
-  await login(form.login, form.pass)
-  const isAuth = await islogin()
-  if (isAuth) {
-    router.push('/dashboard')
+  if (v$.value.$invalid !== true) {
+    await login(form.login, form.pass)
+    const isAuth = await islogin()
+    if (isAuth) {
+      router.push('/dashboard')
+    } else {
+      alert('Problems for login')
+    }
   } else {
-    alert('Problems for login')
+    alert('error en los campos')
   }
 }
 </script>
@@ -51,6 +64,15 @@ const submit = async () => {
           autocomplete="username"
         />
       </field>
+      <div
+        v-for="error of v$.login.$silentErrors"
+        :key="error.$uid"
+        class="input-errors"
+      >
+        <div class="error-msg">
+          {{ error.$message }}
+        </div>
+      </div>
 
       <field
         label="Password"
@@ -64,6 +86,15 @@ const submit = async () => {
           autocomplete="current-password"
         />
       </field>
+      <div
+        v-for="error of v$.pass.$silentErrors"
+        :key="error.$uid"
+        class="input-errors"
+      >
+        <div class="error-msg">
+          {{ error.$message }}
+        </div>
+      </div>
 
       <divider />
 

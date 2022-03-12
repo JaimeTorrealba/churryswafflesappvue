@@ -21,7 +21,6 @@ import JbButtons from '@/components/JbButtons.vue'
 import TitleSubBar from '@/components/TitleSubBar.vue'
 
 // TODO: agregar modales de error y limpiar los campos
-// TODO: agregar modales de error y limpiar los campos
 
 const titleStack = ref(['Admin', 'New order'])
 
