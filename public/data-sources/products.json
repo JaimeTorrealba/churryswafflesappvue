@@ -2,22 +2,22 @@
     {
         "id": "0os3mSL7OvxAX8C15hwV",
         "data": {
-            "Name": "Jugo de Piña",
-            "Price": 2000
+            "Price": 2000,
+            "Name": "Jugo de Piña"
         }
     },
     {
         "id": "2fvj0IurhuUSt2CfXQxu",
         "data": {
-            "Price": 3500,
-            "Name": "Jamón"
+            "Name": "Jamón",
+            "Price": 3500
         }
     },
     {
         "id": "35rpmbCN6XvuRNdQSEug",
         "data": {
-            "Price": 1500,
-            "Name": "Papelón con limón"
+            "Name": "Papelón con limón",
+            "Price": 1500
         }
     },
     {
@@ -30,15 +30,15 @@
     {
         "id": "4FNXF48rUDPD6t3Ap5Qn",
         "data": {
-            "Name": "Fanta",
-            "Price": 1200
+            "Price": 1200,
+            "Name": "Fanta"
         }
     },
     {
         "id": "4Iwzli752kI5Pl9UUfRV",
         "data": {
-            "Price": 2000,
-            "Name": "Latte "
+            "Name": "Latte ",
+            "Price": 2000
         }
     },
     {
@@ -63,6 +63,13 @@
         }
     },
     {
+        "id": "ERSeMaEWmBvfcuGfC976",
+        "data": {
+            "Name": "Cocada",
+            "Price": 3500
+        }
+    },
+    {
         "id": "GQFCetizDPytZ824NsUE",
         "data": {
             "Price": 1200,
@@ -72,8 +79,8 @@
     {
         "id": "Pyw4KZXxaAuikRqEq7fr",
         "data": {
-            "Name": "Agua con gas",
-            "Price": 1000
+            "Price": 1000,
+            "Name": "Agua con gas"
         }
     },
     {
@@ -93,8 +100,15 @@
     {
         "id": "Sy3A6Ju6a5Tsvq6WMH5h",
         "data": {
-            "Name": "Frutilla banana",
-            "Price": 3500
+            "Price": 3500,
+            "Name": "Frutilla banana"
+        }
+    },
+    {
+        "id": "TXSXZdaxutcE7G0HNhyq",
+        "data": {
+            "Price": 1600,
+            "Name": "Empanada"
         }
     },
     {
@@ -102,6 +116,13 @@
         "data": {
             "Name": "Chocolate caliente",
             "Price": 2300
+        }
+    },
+    {
+        "id": "YMlcDsV33CtL5XERPmZH",
+        "data": {
+            "Name": "Jugo de frambuesa",
+            "Price": 2000
         }
     },
     {
@@ -114,8 +135,8 @@
     {
         "id": "cjX7xyDaaXRKIx2kMAOi",
         "data": {
-            "Price": 2000,
-            "Name": "Vienés"
+            "Name": "Vienés",
+            "Price": 2000
         }
     },
     {
@@ -135,8 +156,8 @@
     {
         "id": "geWnEAISGiPgdKAd5HLy",
         "data": {
-            "Price": 3500,
-            "Name": "Oreo Glaseado"
+            "Name": "Oreo Glaseado",
+            "Price": 3500
         }
     },
     {
@@ -147,10 +168,17 @@
         }
     },
     {
+        "id": "mmlUMBT0Q5j56EfKUNXX",
+        "data": {
+            "Name": "Milkshake",
+            "Price": 3800
+        }
+    },
+    {
         "id": "oBviRi6WCrN8Dii0h7FI",
         "data": {
-            "Price": 2000,
-            "Name": "Bombón"
+            "Name": "Bombón",
+            "Price": 2000
         }
     },
     {
@@ -163,8 +191,15 @@
     {
         "id": "qt5ytcpxrHDqaSQNRREL",
         "data": {
+            "Name": "Expresso grande",
+            "Price": 2000
+        }
+    },
+    {
+        "id": "revl04i4BxZ0WQaNmUiS",
+        "data": {
             "Price": 2000,
-            "Name": "Expresso grande"
+            "Name": "Jugo de tamarindo"
         }
     },
     {
@@ -184,15 +219,15 @@
     {
         "id": "w686QiKLhbyxLl2X2dLD",
         "data": {
-            "Price": 1500,
-            "Name": "Expresso regular"
+            "Name": "Expresso regular",
+            "Price": 1500
         }
     },
     {
         "id": "x7oHPFvsgega04dLC7B8",
         "data": {
-            "Price": 2000,
-            "Name": "Americano grande"
+            "Name": "Americano grande",
+            "Price": 2000
         }
     },
     {
@@ -200,6 +235,13 @@
         "data": {
             "Price": 1500,
             "Name": "Americano regular"
+        }
+    },
+    {
+        "id": "z2isoq1tt66HtnM3HtZi",
+        "data": {
+            "Price": 1700,
+            "Name": "Mechada queso"
         }
     },
     {

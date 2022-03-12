@@ -1,6 +1,8 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { logOut } from '../utils/firebase'
 import {
   mdiForwardburger,
   mdiBackburger,
@@ -19,6 +21,8 @@ import Icon from '@/components/Icon.vue'
 
 const store = useStore()
 
+const router = useRouter()
+
 const lightBorderStyle = computed(() => store.state.lightBorderStyle)
 
 const toggleLightDark = () => {
@@ -29,7 +33,7 @@ const isNavBarVisible = computed(() => !store.state.isFullScreen)
 
 const isAsideMobileExpanded = computed(() => store.state.isAsideMobileExpanded)
 
-const userName = computed(() => store.state.userName)
+const userEmail = computed(() => store.state.userEmail)
 
 const menuToggleMobileIcon = computed(() => isAsideMobileExpanded.value ? mdiBackburger : mdiForwardburger)
 
@@ -45,6 +49,11 @@ const menuNavBarToggle = () => {
 
 const menuOpenLg = () => {
   store.dispatch('asideLgToggle', true)
+}
+
+const logoutFuction = () => {
+  logOut()
+  router.push('/')
 }
 </script>
 
@@ -92,7 +101,7 @@ const menuOpenLg = () => {
         class="max-h-screen-menu overflow-y-auto lg:overflow-visible lg:flex lg:items-stretch lg:justify-end lg:ml-auto"
       >
         <nav-bar-menu has-divider>
-          <nav-bar-item-label :label="userName" />
+          <nav-bar-item-label :label="userEmail" />
 
           <template #dropdown>
             <nav-bar-item>
@@ -102,7 +111,7 @@ const menuOpenLg = () => {
               />
             </nav-bar-item>
             <divider nav-bar />
-            <nav-bar-item>
+            <nav-bar-item @click="logoutFuction">
               <nav-bar-item-label
                 :icon="mdiLogout"
                 label="Log Out"
@@ -121,7 +130,10 @@ const menuOpenLg = () => {
             is-desktop-icon-only
           />
         </nav-bar-item>
-        <nav-bar-item is-desktop-icon-only>
+        <nav-bar-item
+          is-desktop-icon-only
+          @click="logoutFuction"
+        >
           <nav-bar-item-label
             :icon="mdiLogout"
             label="Log out"

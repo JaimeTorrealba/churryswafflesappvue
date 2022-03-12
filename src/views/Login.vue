@@ -1,26 +1,33 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { mdiAccount, mdiAsterisk } from '@mdi/js'
+import store from '../store'
 import FullScreenSection from '@/components/FullScreenSection.vue'
 import CardComponent from '@/components/CardComponent.vue'
-import CheckRadioPicker from '@/components/CheckRadioPicker.vue'
 import Field from '@/components/Field.vue'
 import Control from '@/components/Control.vue'
 import Divider from '@/components/Divider.vue'
 import JbButton from '@/components/JbButton.vue'
 import JbButtons from '@/components/JbButtons.vue'
+import { login } from '@/utils/firebase'
 
 const form = reactive({
-  login: 'john.doe',
-  pass: 'highly-secure-password-fYjUw-',
-  remember: ['remember']
+  login: '',
+  pass: ''
 })
 
 const router = useRouter()
 
-const submit = () => {
-  router.push('/dashboard')
+const user = computed(() => store.state.userEmail)
+
+const submit = async () => {
+  await login(form.login, form.pass)
+  if (user.value) {
+    router.push('/dashboard')
+  } else {
+    alert('Problems for login')
+  }
 }
 </script>
 
@@ -60,12 +67,6 @@ const submit = () => {
         />
       </field>
 
-      <check-radio-picker
-        v-model="form.remember"
-        name="remember"
-        :options="{ remember: 'Remember' }"
-      />
-
       <divider />
 
       <jb-buttons>
@@ -73,12 +74,6 @@ const submit = () => {
           type="submit"
           color="info"
           label="Login"
-        />
-        <jb-button
-          to="/dashboard"
-          color="info"
-          outline
-          label="Back"
         />
       </jb-buttons>
     </card-component>

@@ -108,7 +108,7 @@ const submit = async () => {
     store.dispatch('getAllOrders', 'orders')
     router.push('/dashboard')
   } else {
-    alert('error')
+    alert('error campos obligatorios faltantes')
   }
 }
 </script>

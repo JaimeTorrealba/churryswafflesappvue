@@ -2,51 +2,51 @@
     {
         "id": "BNPSRAKWCfyRSUEGyl3N",
         "data": {
+            "client": "Otro test",
             "totalPrice": 21500,
+            "extraPrice": "8000",
+            "totalQuantity": 5,
+            "isPaid": false,
+            "extraQuantity": 2,
+            "date": "23 feb 2022, 20:36",
             "products": [
                 {
+                    "id": "0os3mSL7OvxAX8C15hwV",
                     "data": {
-                        "Quantity": 2,
+                        "Name": "Jugo de Piña",
                         "Price": 2000,
-                        "Name": "Jugo de Piña"
-                    },
-                    "id": "0os3mSL7OvxAX8C15hwV"
+                        "Quantity": 2
+                    }
                 },
                 {
-                    "id": "35rpmbCN6XvuRNdQSEug",
                     "data": {
-                        "Quantity": 1,
                         "Price": 1500,
+                        "Quantity": 1,
                         "Name": "Papelón con limón"
-                    }
+                    },
+                    "id": "35rpmbCN6XvuRNdQSEug"
                 }
             ],
-            "client": "Otro test",
-            "isPaid": false,
             "note": "",
             "paymentType": {
                 "id": 1,
                 "label": "Efectivo"
-            },
-            "extraPrice": "8000",
-            "extraQuantity": 2,
-            "totalQuantity": 5,
-            "date": "23 feb 2022, 20:36"
+            }
         }
     },
     {
         "id": "HN9fSIUfpIReIPZSnkol",
         "data": {
-            "isPaid": false,
-            "date": "23 feb 2022, 20:41",
-            "extraQuantity": 3,
-            "totalPrice": 10000,
-            "paymentType": {
-                "label": "Efectivo",
-                "id": 1
-            },
             "client": "test extra",
+            "paymentType": {
+                "id": 1,
+                "label": "Efectivo"
+            },
             "note": "",
+            "extraQuantity": 3,
+            "extraPrice": "1500",
+            "totalQuantity": 5,
+            "isPaid": false,
             "products": [
                 {
                     "id": "2fvj0IurhuUSt2CfXQxu",
@@ -59,92 +59,137 @@
                 {
                     "data": {
                         "Price": 2000,
-                        "Quantity": 1,
-                        "Name": "Latte "
+                        "Name": "Latte ",
+                        "Quantity": 1
                     },
                     "id": "4Iwzli752kI5Pl9UUfRV"
                 }
             ],
-            "extraPrice": "1500",
-            "totalQuantity": 5
+            "date": "23 feb 2022, 20:41",
+            "totalPrice": 10000
+        }
+    },
+    {
+        "id": "SCP4q7Kk3eWlsWrLvloo",
+        "data": {
+            "products": [
+                {
+                    "data": {
+                        "Price": 2000,
+                        "Quantity": 1,
+                        "Name": "Jugo de Piña"
+                    },
+                    "id": "0os3mSL7OvxAX8C15hwV"
+                }
+            ],
+            "totalPrice": 2300,
+            "extraQuantity": 1,
+            "extraPrice": "300",
+            "totalQuantity": 2,
+            "paymentType": {
+                "id": 1,
+                "label": "Efectivo"
+            },
+            "date": "8 mar 2022, 17:08",
+            "isPaid": false,
+            "client": "LUIS",
+            "note": "D:"
         }
     },
     {
         "id": "cDmKEGTf56g6YwMCqWdZ",
         "data": {
             "totalPrice": 6700,
-            "paymentType": {
-                "label": "Transferencia",
-                "id": 3
-            },
-            "note": "aaaaa",
-            "extraQuantity": 0,
+            "isPaid": true,
+            "client": "Jaime test",
             "products": [
                 {
-                    "id": "4Iwzli752kI5Pl9UUfRV",
                     "data": {
-                        "Price": 2000,
                         "Quantity": 1,
-                        "Name": "Latte "
-                    }
+                        "Name": "Latte ",
+                        "Price": 2000
+                    },
+                    "id": "4Iwzli752kI5Pl9UUfRV"
                 },
                 {
                     "data": {
+                        "Name": "Sprite",
                         "Quantity": 1,
-                        "Price": 1200,
-                        "Name": "Sprite"
+                        "Price": 1200
                     },
                     "id": "GQFCetizDPytZ824NsUE"
                 },
                 {
+                    "id": "geWnEAISGiPgdKAd5HLy",
                     "data": {
                         "Price": 3500,
-                        "Name": "Oreo Glaseado",
-                        "Quantity": 1
-                    },
-                    "id": "geWnEAISGiPgdKAd5HLy"
+                        "Quantity": 1,
+                        "Name": "Oreo Glaseado"
+                    }
                 }
             ],
-            "extraPrice": 0,
-            "isPaid": false,
             "date": "22 feb 2022, 23:27",
+            "note": "aaaaa",
+            "extraQuantity": 0,
+            "extraPrice": 0,
             "totalQuantity": 3,
-            "client": "Jaime test"
+            "paymentType": {
+                "id": 3,
+                "label": "Transferencia"
+            }
         }
     },
     {
         "id": "uk32ZTBkEOSYctBeSRyS",
         "data": {
-            "totalPrice": 5200,
-            "totalQuantity": 3,
-            "date": "22 feb 2022, 20:44",
-            "extraPrice": 0,
-            "isPaid": true,
-            "paymentType": {
-                "id": 2,
-                "label": "RedCompra"
-            },
-            "note": "nada especial",
             "client": "Jaime test",
-            "extraQuantity": 0,
             "products": [
                 {
-                    "id": "0os3mSL7OvxAX8C15hwV",
                     "data": {
+                        "Name": "Jugo de Piña",
                         "Price": 2000,
-                        "Quantity": 2,
-                        "Name": "Jugo de Piña"
-                    }
+                        "Quantity": 2
+                    },
+                    "id": "0os3mSL7OvxAX8C15hwV"
                 },
                 {
+                    "id": "4FNXF48rUDPD6t3Ap5Qn",
                     "data": {
                         "Price": 1200,
                         "Quantity": 1,
                         "Name": "Fanta"
-                    },
-                    "id": "4FNXF48rUDPD6t3Ap5Qn"
+                    }
                 }
-            ]
+            ],
+            "isPaid": false,
+            "totalPrice": 5200,
+            "extraQuantity": 0,
+            "paymentType": {
+                "label": "RedCompra",
+                "id": 2
+            },
+            "date": "22 feb 2022, 20:44",
+            "note": "nada especial",
+            "extraPrice": 0,
+            "totalQuantity": 3
+        }
+    },
+    {
+        "id": "xnM8JPElJBD0IeYlWpCY",
+        "data": {
+            "totalPrice": 200,
+            "extraQuantity": 1,
+            "date": "8 mar 2022, 17:02",
+            "products": [],
+            "note": "...",
+            "isPaid": false,
+            "totalQuantity": 1,
+            "extraPrice": "200",
+            "client": "Gregory",
+            "paymentType": {
+                "id": 1,
+                "label": "Efectivo"
+            }
         }
     }
 ]

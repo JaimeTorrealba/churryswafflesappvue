@@ -7,6 +7,7 @@ export default createStore({
   state: {
     products: [],
     orders: [],
+    userEmail: null,
 
     /* Styles */
     lightBorderStyle: '',
@@ -26,10 +27,6 @@ export default createStore({
     tableTrStyle: '',
     tableTrOddStyle: '',
     overlayStyle: '',
-
-    /* User */
-    userName: null,
-    userEmail: null,
 
     /* fullScreen - fullscreen form layout (e.g. login page) */
     isFullScreen: true,

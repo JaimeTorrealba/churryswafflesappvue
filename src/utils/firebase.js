@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc, orderBy } from 'firebase/firestore/lite'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import store from '../store'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -16,6 +18,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 
 const db = getFirestore(app)
+const auth = getAuth()
 
 // PRODUCTS
 
@@ -76,4 +79,21 @@ export async function paidOrder (order) {
   await updateDoc(orderRef, {
     isPaid: true
   })
+}
+export async function login (email, password) {
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user
+      store.commit('user', {
+        email: user.email
+      })
+    })
+    .catch((error) => {
+      console.error(error.code)
+      console.error(error.message)
+      return false
+    })
+}
+export async function logOut () {
+  await auth.signOut()
 }
