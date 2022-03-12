@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
+import { islogin } from '@/utils/firebase'
 
 const routes = [
   {
@@ -61,6 +62,13 @@ const router = createRouter({
   routes,
   scrollBehavior (to, from, savedPosition) {
     return savedPosition || { top: 0 }
+  }
+})
+
+router.beforeEach(async (to, from) => {
+  const isAuth = await islogin()
+  if (!isAuth && to.name !== 'login') {
+    return { name: 'login' }
   }
 })
 

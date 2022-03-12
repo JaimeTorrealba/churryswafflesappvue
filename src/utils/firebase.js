@@ -80,6 +80,9 @@ export async function paidOrder (order) {
     isPaid: true
   })
 }
+
+// LOGIN
+
 export async function login (email, password) {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -95,5 +98,19 @@ export async function login (email, password) {
     })
 }
 export async function logOut () {
+  store.commit('user', {
+    email: null
+  })
   await auth.signOut()
+}
+export async function islogin () {
+  let isAuth = false
+  await auth.onAuthStateChanged(user => {
+    if (user) {
+      isAuth = true
+    } else {
+      isAuth = false
+    }
+  })
+  return isAuth
 }

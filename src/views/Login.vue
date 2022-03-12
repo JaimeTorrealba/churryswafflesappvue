@@ -1,8 +1,7 @@
 <script setup>
-import { reactive, computed } from 'vue'
+import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { mdiAccount, mdiAsterisk } from '@mdi/js'
-import store from '../store'
 import FullScreenSection from '@/components/FullScreenSection.vue'
 import CardComponent from '@/components/CardComponent.vue'
 import Field from '@/components/Field.vue'
@@ -10,7 +9,7 @@ import Control from '@/components/Control.vue'
 import Divider from '@/components/Divider.vue'
 import JbButton from '@/components/JbButton.vue'
 import JbButtons from '@/components/JbButtons.vue'
-import { login } from '@/utils/firebase'
+import { login, islogin } from '@/utils/firebase'
 
 const form = reactive({
   login: '',
@@ -19,11 +18,10 @@ const form = reactive({
 
 const router = useRouter()
 
-const user = computed(() => store.state.userEmail)
-
 const submit = async () => {
   await login(form.login, form.pass)
-  if (user.value) {
+  const isAuth = await islogin()
+  if (isAuth) {
     router.push('/dashboard')
   } else {
     alert('Problems for login')
