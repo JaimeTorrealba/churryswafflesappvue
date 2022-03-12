@@ -9,7 +9,7 @@ import VueNumberInput from '@chenfengyuan/vue-number-input'
 import './css/main.css'
 
 console.log('Enviroment:', process.env.NODE_ENV)
-console.log('APIKEY:', process.env.APIKEY_FIRESTORE)
+console.log('APIKEY:', process.env)
 /* App style */
 store.dispatch('setStyle', localStorage[styleKey] = 'basic')
 
