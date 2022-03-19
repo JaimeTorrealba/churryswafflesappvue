@@ -8,6 +8,8 @@ import Level from '@/components/Level.vue'
 import JbButtons from '@/components/JbButtons.vue'
 import JbButton from '@/components/JbButton.vue'
 import Divider from '@/components/Divider.vue'
+import Field from '@/components/Field.vue'
+import Control from '@/components/Control.vue'
 
 // TODO: agregar edit option
 // TODO: agregar print option
@@ -34,7 +36,7 @@ const orderWrapper = reactive({
 
 const isModalActive = ref(false)
 
-const isModalDangerActive = ref(false)
+const isModalSuccessActive = ref(false)
 
 const perPage = ref(10)
 
@@ -77,10 +79,10 @@ const deleteOrderFromTable = async (order) => {
   store.dispatch('getAllOrders', 'orders')
   isModalActive.value = false
 }
-const paidSelectedOrderFromTable = async (order) => {
-  await paidOrder(order)
+const paidSelectedOrderFromTable = async (order, newData) => {
+  await paidOrder(order, newData)
   store.dispatch('getAllOrders', 'orders')
-  isModalDangerActive.value = false
+  isModalSuccessActive.value = false
   alert('La orden se marco como pagada de manera correcta')
 }
 const selectItem = (order) => {
@@ -89,6 +91,15 @@ const selectItem = (order) => {
 const notYet = () => {
   alert('Function en construccion')
 }
+const selectOptionsPaymentTypes = [
+  { id: 1, label: 'Efectivo' },
+  { id: 2, label: 'RedCompra' },
+  { id: 3, label: 'Transferencia' }
+]
+const forForm = reactive({
+  paymentType: selectOptionsPaymentTypes[0],
+  tip: 0
+})
 </script>
 
 <template>
@@ -139,22 +150,38 @@ const notYet = () => {
   </modal-box>
 
   <modal-box
-    v-model="isModalDangerActive"
+    v-model="isModalSuccessActive"
     large-title="Confirm order"
     button="success"
     has-cancel
-    @effect="paidSelectedOrderFromTable(selectedItem.data)"
+    @effect="paidSelectedOrderFromTable(selectedItem.data, forForm)"
   >
     <p>Marcar como <b>entregado</b></p>
-    <p>Esta accion enviará la orden al historial de ordenes (donde no se podran realizar modificaciones posteriores</p>
+    <p>Esta accion enviará la orden al historial de ordenes (donde no se podran realizar modificaciones posteriores)</p>
+    <field label="Payment Type">
+      <control
+        v-model="forForm.paymentType"
+        :options="selectOptionsPaymentTypes"
+      />
+    </field>
+    <field
+      label="Tip"
+      :help="`Total order: ${selectedItem?.data.data?.totalPrice} - 10% suggested ${selectedItem?.data.data?.totalPrice * 0.10}`"
+    >
+      <vue-number-input
+        v-model="forForm.tip"
+        :min="0"
+        :step="100"
+        controls
+      />
+    </field>
   </modal-box>
   <table>
     <thead>
       <tr>
         <th>Client</th>
-        <th>Price</th>
+        <th>Total Price</th>
         <th>N° Products</th>
-        <th>Payment type</th>
         <th>Created</th>
         <th />
       </tr>
@@ -176,9 +203,6 @@ const notYet = () => {
         >
           {{ order.data.totalQuantity }}
         </td>
-        <td data-label="Total price">
-          {{ order.data.paymentType.label }}
-        </td>
         <td data-label="Created">
           <small
             class="text-gray-500 dark:text-gray-400"
@@ -197,15 +221,10 @@ const notYet = () => {
               @click="isModalActive = true; selectItem(order)"
             />
             <jb-button
-              :icon="mdiPrinter "
-              small
-              @click="notYet()"
-            />
-            <jb-button
               color="success"
               :icon="mdiCheck"
               small
-              @click="isModalDangerActive = true; selectItem(order)"
+              @click="isModalSuccessActive = true; selectItem(order)"
             />
           </jb-buttons>
         </td>

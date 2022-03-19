@@ -18,7 +18,7 @@ const isFooterBarVisible = computed(() => !store.state.isFullScreen)
     <level>
       <div class="text-center md:text-left">
         <b>&copy; {{ year }},</b>
-        Propiedad de Churry's Waffles
+        Churry's Waffles
       </div>
     </level>
   </footer>

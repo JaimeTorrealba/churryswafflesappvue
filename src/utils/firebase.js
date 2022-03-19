@@ -74,10 +74,12 @@ export async function deleteOrder (orderId) {
   await deleteDoc(doc(db, 'orders', orderId))
 }
 // update order
-export async function paidOrder (order) {
+export async function paidOrder (order, newData) {
   const orderRef = doc(db, 'orders', order.id)
   await updateDoc(orderRef, {
-    isPaid: true
+    isPaid: true,
+    tip: newData.tip,
+    paymentType: newData.paymentType
   })
 }
 
@@ -103,6 +105,7 @@ export async function logOut () {
   })
   await auth.signOut()
 }
+
 export async function islogin () {
   let isAuth = false
   await auth.onAuthStateChanged(user => {

@@ -29,7 +29,7 @@ const router = useRouter()
 
 const submit = async () => {
   if (v$.value.$invalid !== true) {
-    await login(form.login, form.pass)
+    await login(form.login, form.pass) // recibir respuesta ok
     const isAuth = await islogin()
     if (isAuth) {
       router.push('/dashboard')

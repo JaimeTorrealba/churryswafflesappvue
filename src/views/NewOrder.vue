@@ -35,14 +35,8 @@ const userEmail = computed(() => store.state.userEmail)
 const productWrapper = reactive({
   products
 })
-const selectOptionsPaymentTypes = [
-  { id: 1, label: 'Efectivo' },
-  { id: 2, label: 'RedCompra' },
-  { id: 3, label: 'Transferencia' }
-]
 
 const form = reactive({
-  paymentType: selectOptionsPaymentTypes[0],
   totalPrice: 0,
   totalQuantity: 0,
   extraPrice: 0,
@@ -193,12 +187,6 @@ const submit = async () => {
           {{ error.$message }}
         </div>
       </div>
-      <field label="Payment Type">
-        <control
-          v-model="form.paymentType"
-          :options="selectOptionsPaymentTypes"
-        />
-      </field>
 
       <divider />
 

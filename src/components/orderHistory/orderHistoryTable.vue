@@ -134,7 +134,8 @@ const printPage = () => {
     <thead>
       <tr>
         <th>Client</th>
-        <th>Price</th>
+        <th>Total Price</th>
+        <th>Tip</th>
         <th>N° Products</th>
         <th>Payment type</th>
         <th>Created</th>
@@ -153,12 +154,15 @@ const printPage = () => {
         <td data-label="Total price">
           {{ order.data.totalPrice }}
         </td>
+        <td data-label="Total price">
+          {{ order.data.tip || 0 }}
+        </td>
         <td
           data-label="Total quantity"
         >
           {{ order.data.totalQuantity }}
         </td>
-        <td data-label="Total price">
+        <td data-label="Payment type">
           {{ order.data.paymentType.label }}
         </td>
         <td data-label="Created">
@@ -177,11 +181,6 @@ const printPage = () => {
               :icon="mdiEye"
               small
               @click="isModalActive = true; selectItem(order)"
-            />
-            <jb-button
-              :icon="mdiPrinter "
-              small
-              @click="notYet()"
             />
           </jb-buttons>
         </td>

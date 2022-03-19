@@ -23,6 +23,14 @@ const routes = [
   },
   {
     meta: {
+      title: 'OrderDetail'
+    },
+    path: '/orderDetail/:id',
+    name: 'OrderDetail',
+    component: () => import(/* webpackChunkName: "tables" */ '@/views/OrderDetail.vue')
+  },
+  {
+    meta: {
       title: 'NewOrder'
     },
     path: '/newOrder',
@@ -65,11 +73,13 @@ const router = createRouter({
   }
 })
 
-router.beforeEach(async (to, from) => {
-  const isAuth = await islogin()
-  if (!isAuth && to.name !== 'login') {
-    return { name: 'login' }
-  }
-})
+if (process.env.NODE_ENV === 'production') {
+  router.beforeEach(async (to, from) => {
+    const isAuth = await islogin()
+    if (!isAuth && to.name !== 'login') {
+      return { name: 'login' }
+    }
+  })
+}
 
 export default router
