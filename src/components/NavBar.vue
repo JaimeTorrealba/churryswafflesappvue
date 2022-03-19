@@ -61,7 +61,7 @@ const logoutFuction = () => {
   <nav
     v-show="isNavBarVisible"
     class="top-0 left-0 right-0 fixed flex bg-white h-14 border-b z-30 w-screen
-    transition-position xl:pl-60 lg:w-auto lg:items-stretch dark:bg-gray-900 dark:border-gray-800"
+    transition-position xl:pl-60 lg:w-auto lg:items-stretch dark:bg-gray-900 dark:border-gray-800 print:hidden"
     :class="[lightBorderStyle, {'ml-60 lg:ml-0':isAsideMobileExpanded}]"
   >
     <div class="flex-1 items-stretch flex h-14">

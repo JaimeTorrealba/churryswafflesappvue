@@ -1,22 +1,23 @@
 <script setup>
 import { computed, ref, reactive } from 'vue'
 import { useStore } from 'vuex'
-import { deleteOrder, paidOrder } from '@/utils/firebase.js'
-import { mdiEye, mdiCheck, mdiPrinter, mdiFileDocumentEdit } from '@mdi/js'
+import { useRouter } from 'vue-router'
+import { paidOrder } from '@/utils/firebase.js'
+import { mdiEye, mdiCheck } from '@mdi/js'
 import ModalBox from '@/components/ModalBox.vue'
 import Level from '@/components/Level.vue'
 import JbButtons from '@/components/JbButtons.vue'
 import JbButton from '@/components/JbButton.vue'
-import Divider from '@/components/Divider.vue'
 import Field from '@/components/Field.vue'
 import Control from '@/components/Control.vue'
 
 // TODO: agregar edit option
-// TODO: agregar print option
 
 defineProps({
   checkable: Boolean
 })
+
+const router = useRouter()
 
 const store = useStore()
 
@@ -33,8 +34,6 @@ const items = computed(() => store.state.orders)
 const orderWrapper = reactive({
   items
 })
-
-const isModalActive = ref(false)
 
 const isModalSuccessActive = ref(false)
 
@@ -74,11 +73,6 @@ const pagesList = computed(() => {
 const selectedItem = reactive({
   data: ''
 })
-const deleteOrderFromTable = async (order) => {
-  await deleteOrder(order)
-  store.dispatch('getAllOrders', 'orders')
-  isModalActive.value = false
-}
 const paidSelectedOrderFromTable = async (order, newData) => {
   await paidOrder(order, newData)
   store.dispatch('getAllOrders', 'orders')
@@ -88,8 +82,8 @@ const paidSelectedOrderFromTable = async (order, newData) => {
 const selectItem = (order) => {
   selectedItem.data = order
 }
-const notYet = () => {
-  alert('Function en construccion')
+const routeDetails = () => {
+  router.push(`/orderDetail/${selectedItem.data.id}`)
 }
 const selectOptionsPaymentTypes = [
   { id: 1, label: 'Efectivo' },
@@ -103,52 +97,6 @@ const forForm = reactive({
 </script>
 
 <template>
-  <modal-box
-    v-model="isModalActive"
-    title="Order Options"
-  >
-    <div class="flex justify-between">
-      <jb-button
-        label="Print (not yet)"
-        :icon="mdiPrinter "
-        @click="notYet()"
-      />
-      <jb-button
-        label="Modify (not yet)"
-        color="info"
-        :icon="mdiFileDocumentEdit "
-        @click="notYet()"
-      />
-      <jb-button
-        label="Delete"
-        color="danger"
-        :icon="mdiPrinter "
-        @click="deleteOrderFromTable(selectedItem.data.id)"
-      />
-    </div>
-    <divider />
-    <ul>
-      <li>Client Name: <b>{{ selectedItem.data?.data?.client }} </b></li>
-      <li>Date: <b>{{ selectedItem.data?.data?.date }} </b></li>
-      <li>Total Price: <b>{{ selectedItem.data?.data?.totalPrice }}</b></li>
-      <li>Total Items: <b>{{ selectedItem.data?.data?.totalQuantity }}</b></li>
-      <li>Notes: {{ selectedItem.data?.data?.note || 'No notes' }}</li>
-      <li v-if="selectedItem.data?.data?.extraQuantity">
-        This order has extra products, total: <b>{{ selectedItem.data?.data?.extraQuantity }}</b>
-        and a total of <b>{{ selectedItem.data?.data?.extraPrice }}</b>
-      </li>
-    </ul>
-    <h3><b>Products:</b></h3>
-    <ul
-      v-for="product in selectedItem.data?.data?.products"
-      :key="product.Name"
-    >
-      <li>Nombre: <b>{{ product.data?.Name }}</b></li>
-      <li>Precio: <b>{{ product.data?.Price }}</b></li>
-      <li>Quantity: <b>{{ product.data?.Quantity }}</b></li>
-    </ul>
-  </modal-box>
-
   <modal-box
     v-model="isModalSuccessActive"
     large-title="Confirm order"
@@ -218,7 +166,7 @@ const forForm = reactive({
               color="info"
               :icon="mdiEye"
               small
-              @click="isModalActive = true; selectItem(order)"
+              @click="selectItem(order); routeDetails()"
             />
             <jb-button
               color="success"

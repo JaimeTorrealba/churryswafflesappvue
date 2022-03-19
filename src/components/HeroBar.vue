@@ -26,6 +26,7 @@ const darkModeToggle = () => {
         <slot />
       </h1>
       <jb-button
+        class="print:hidden"
         :label="darkMode ? 'Light Mode' : 'Dark Mode'"
         :icon="mdiThemeLightDark"
         :outline="darkMode"

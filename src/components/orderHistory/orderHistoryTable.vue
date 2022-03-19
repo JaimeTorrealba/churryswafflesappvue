@@ -1,13 +1,11 @@
 <script setup>
 import { computed, ref, reactive } from 'vue'
 import { useStore } from 'vuex'
-import { paidOrder } from '@/utils/firebase.js'
-import { mdiEye, mdiPrinter } from '@mdi/js'
-import ModalBox from '@/components/ModalBox.vue'
+import { useRouter } from 'vue-router'
+import { mdiEye } from '@mdi/js'
 import Level from '@/components/Level.vue'
 import JbButtons from '@/components/JbButtons.vue'
 import JbButton from '@/components/JbButton.vue'
-import Divider from '@/components/Divider.vue'
 
 // TODO: agregar print option
 
@@ -16,6 +14,8 @@ defineProps({
 })
 
 const store = useStore()
+
+const router = useRouter()
 
 const lightBorderStyle = computed(() => store.state.lightBorderStyle)
 
@@ -30,10 +30,6 @@ const items = computed(() => store.state.orders)
 const orderWrapper = reactive({
   items
 })
-
-const isModalActive = ref(false)
-
-const isModalDangerActive = ref(false)
 
 const perPage = ref(10)
 
@@ -71,65 +67,15 @@ const pagesList = computed(() => {
 const selectedItem = reactive({
   data: ''
 })
-const paidSelectedOrderFromTable = async (order) => {
-  await paidOrder(order)
-  store.dispatch('getAllOrders', 'orders')
-  isModalDangerActive.value = false
-  alert('La orden se marco como pagada de manera correcta')
-}
 const selectItem = (order) => {
   selectedItem.data = order
 }
-const printPage = () => {
-  window.print()
+const routeDetails = () => {
+  router.push(`/orderDetail/${selectedItem.data.id}`)
 }
 </script>
 
 <template>
-  <modal-box
-    v-model="isModalActive"
-    title="Order Options"
-  >
-    <div class="flex justify-between">
-      <jb-button
-        label="Print"
-        :icon="mdiPrinter"
-        @click="printPage()"
-      />
-    </div>
-    <divider />
-    <ul>
-      <li>Client Name: <b>{{ selectedItem.data?.data?.client }} </b></li>
-      <li>Date: <b>{{ selectedItem.data?.data?.date }} </b></li>
-      <li>Total Price: <b>{{ selectedItem.data?.data?.totalPrice }}</b></li>
-      <li>Total Items: <b>{{ selectedItem.data?.data?.totalQuantity }}</b></li>
-      <li>Notes: {{ selectedItem.data?.data?.note || 'No notes' }}</li>
-      <li v-if="selectedItem.data?.data?.extraQuantity">
-        This order has extra products, total: <b>{{ selectedItem.data?.data?.extraQuantity }}</b>
-        and a total of <b>{{ selectedItem.data?.data?.extraPrice }}</b>
-      </li>
-    </ul>
-    <h3><b>Products:</b></h3>
-    <ul
-      v-for="product in selectedItem.data?.data?.products"
-      :key="product.Name"
-    >
-      <li>Nombre: <b>{{ product.data?.Name }}</b></li>
-      <li>Precio: <b>{{ product.data?.Price }}</b></li>
-      <li>Quantity: <b>{{ product.data?.Quantity }}</b></li>
-    </ul>
-  </modal-box>
-
-  <modal-box
-    v-model="isModalDangerActive"
-    large-title="Confirm order"
-    button="success"
-    has-cancel
-    @effect="paidSelectedOrderFromTable(selectedItem.data)"
-  >
-    <p>Marcar como <b>entregado</b></p>
-    <p>Esta accion enviará la orden al historial de ordenes (donde no se podran realizar modificaciones posteriores</p>
-  </modal-box>
   <table>
     <thead>
       <tr>
@@ -180,7 +126,7 @@ const printPage = () => {
               color="info"
               :icon="mdiEye"
               small
-              @click="isModalActive = true; selectItem(order)"
+              @click="selectItem(order); routeDetails()"
             />
           </jb-buttons>
         </td>
