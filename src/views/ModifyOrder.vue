@@ -6,6 +6,7 @@ import { numeric, minValue, required } from '@vuelidate/validators'
 import { useStore } from 'vuex'
 import { DateTime } from 'luxon'
 import { useRouter } from 'vue-router'
+import { cloneDeep } from 'lodash'
 
 import { mdiBallot, mdiBallotOutline } from '@mdi/js'
 import MainSection from '@/components/MainSection.vue'
@@ -28,11 +29,13 @@ const store = useStore()
 
 const router = useRouter()
 
-const products = computed(() => store.state.products)
+const originalProducts = computed(() => store.state.products)
 
 const userEmail = computed(() => store.state.userEmail)
 
 const items = computed(() => store.state.orders)
+
+const products = cloneDeep(originalProducts)
 
 const productWrapper = reactive({
   products
@@ -51,7 +54,7 @@ const selectedOrder = computed(() => {
 
 // eslint-disable-next-line no-unused-vars
 const updateProducts = computed(() => {
-  productWrapper.products.map((elem) => {
+  return productWrapper.products.map((elem) => {
     selectedOrder.value.data.products.map((match) => {
       if (match.data.Name === elem.data.Name) {
         elem.data.Quantity = match.data.Quantity
@@ -60,7 +63,6 @@ const updateProducts = computed(() => {
     })
     return true
   })
-  return productWrapper.products
 })
 
 const form = reactive({

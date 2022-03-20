@@ -35,6 +35,15 @@ const userEmail = computed(() => store.state.userEmail)
 const productWrapper = reactive({
   products
 })
+// eslint-disable-next-line no-unused-vars
+const updateProducts = computed(() => {
+  return productWrapper.products.map((elem) => {
+    if (elem.data.Quantity) {
+      delete elem.data.Quantity
+    }
+    return true
+  })
+})
 
 const form = reactive({
   totalPrice: 0,
@@ -112,6 +121,7 @@ const submit = async () => {
 <template>
   <title-bar :title-stack="titleStack" />
   <hero-bar>New order</hero-bar>
+  <span class="hidden">{{ updateProducts }}</span>
 
   <main-section>
     <title-sub-bar
