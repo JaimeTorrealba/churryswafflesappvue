@@ -42,7 +42,9 @@ const printPage = () => {
 const goBack = () => {
   router.go(-1)
 }
-
+const routeDetails = (orderId) => {
+  router.push(`/modifyOrder/${orderId}`)
+}
 </script>
 
 <template>
@@ -60,7 +62,7 @@ const goBack = () => {
     >
       <div
         class="flex  m-8 print:hidden"
-        :class="selectedOrder.data.isPaid ? 'justify-center' : 'justify-between' "
+        :class="selectedOrder.data?.isPaid ? 'justify-center' : 'justify-between' "
       >
         <jb-button
           label="Print"
@@ -68,14 +70,14 @@ const goBack = () => {
           @click="printPage()"
         />
         <jb-button
-          v-if="!selectedOrder.data.isPaid"
-          label="Modify (not yet)"
+          v-if="!selectedOrder.data?.isPaid"
+          label="Modify"
           color="info"
           :icon="mdiFileDocumentEdit "
-          @click="notYet()"
+          @click="routeDetails(selectedOrder.id)"
         />
         <jb-button
-          v-if="!selectedOrder.data.isPaid"
+          v-if="!selectedOrder.data?.isPaid"
           label="Delete"
           color="danger"
           :icon="mdiPrinter "

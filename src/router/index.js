@@ -19,7 +19,7 @@ const routes = [
     },
     path: '/orderHistory',
     name: 'OrderHistory',
-    component: () => import(/* webpackChunkName: "tables" */ '@/views/OrderHistory.vue')
+    component: () => import(/* webpackChunkName: "OrderHistory" */ '@/views/OrderHistory.vue')
   },
   {
     meta: {
@@ -27,7 +27,15 @@ const routes = [
     },
     path: '/orderDetail/:id',
     name: 'OrderDetail',
-    component: () => import(/* webpackChunkName: "tables" */ '@/views/OrderDetail.vue')
+    component: () => import(/* webpackChunkName: "OrderDetail" */ '@/views/OrderDetail.vue')
+  },
+  {
+    meta: {
+      title: 'ModifyOrder'
+    },
+    path: '/modifyOrder/:id',
+    name: 'ModifyOrder',
+    component: () => import(/* webpackChunkName: "ModifyOrder" */ '@/views/ModifyOrder.vue')
   },
   {
     meta: {

@@ -33,7 +33,7 @@ export async function getProducts () {
     }
     return responseWithId
   })
-  console.log(productsListData)
+  console.log('products', productsListData)
   return productsListData
 }
 
@@ -66,7 +66,7 @@ export async function getUnpaidOrders () {
     }
     return responseWithId
   })
-  console.log(ordersListData)
+  console.log('orders', ordersListData)
   return ordersListData
 }
 // delete order
@@ -81,6 +81,11 @@ export async function paidOrder (order, newData) {
     tip: newData.tip,
     paymentType: newData.paymentType
   })
+}
+// update order
+export async function modifyOrder (orderId, newData) {
+  const orderRef = doc(db, 'orders', orderId)
+  await updateDoc(orderRef, { ...newData })
 }
 
 // LOGIN
