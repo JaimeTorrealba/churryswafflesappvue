@@ -127,7 +127,7 @@ const submit = async () => {
   form.user = userEmail.value
   if (v$.value.$invalid !== true) {
     await modifyOrder(router.currentRoute.value.params.id, form)
-    alert('orden ingresada correctamente')
+    alert('orden modificada correctamente')
     store.dispatch('getAllOrders', 'orders')
     router.push('/dashboard')
   } else {
